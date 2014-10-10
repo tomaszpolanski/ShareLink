@@ -1,0 +1,37 @@
+﻿<prism:VisualStateAwarePage
+    x:Class="ShareLink.Views.MainPage"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:prism="using:Microsoft.Practices.Prism.StoreApps"
+    xmlns:prismmvvm="using:Microsoft.Practices.Prism.Mvvm"
+    xmlns:interactivity="using:Microsoft.Xaml.Interactivity"
+    xmlns:behaviors="using:ShareLink.Behaviors"
+    prismmvvm:ViewModelLocator.AutoWireViewModel="true"
+    mc:Ignorable="d"
+    Background="Black">
+
+    <Grid Background="Black">
+        <StackPanel 
+                 VerticalAlignment="Center">
+            <TextBox x:Name="LinkBox" 
+                 PlaceholderText="Url"
+                 FontSize="30"
+                 Text="{Binding Text.Value, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"
+                 Margin="330,0">
+                <interactivity:Interaction.Behaviors>
+                    <behaviors:SelectAllBehavior ChangedProperty="{Binding UpdateProperty.Value}" />
+                </interactivity:Interaction.Behaviors>
+            </TextBox>
+            <Button Content="Share"
+                    HorizontalAlignment="Center"
+                    Command="{Binding ShareCommand}"
+                    FontSize="30"
+                    Height="100"
+                    Width="200"
+                    Margin="0,50"/>
+        </StackPanel>
+
+    </Grid>
+</prism:VisualStateAwarePage>
