@@ -168,9 +168,9 @@
       <Project>{46e0db51-79f2-497e-95ff-a3ec5c4a4647}</Project>
       <Name>ShareLink.Services.Windows</Name>
     </ProjectReference>
-    <ProjectReference Include="..\..\ViewModels\ViewModels.csproj">
+    <ProjectReference Include="..\..\ViewModels\ShareLink.ViewModels.csproj">
       <Project>{a3a9c1f0-8e01-48f3-b599-093df25c384f}</Project>
-      <Name>ViewModels</Name>
+      <Name>ShareLink.ViewModels</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>

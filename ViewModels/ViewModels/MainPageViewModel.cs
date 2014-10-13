@@ -5,7 +5,7 @@ using Microsoft.Practices.Prism.Mvvm;
 using Services.Interfaces;
 using Utilities.Reactive;
 
-namespace ViewModels.ViewModels
+namespace ShareLink.ViewModels.ViewModels
 {
     public class MainPageViewModel : ViewModel, IDisposable
     {
