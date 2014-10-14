@@ -13,8 +13,6 @@ namespace ShareLink.ViewModels.ViewModels
     public class MainPageViewModel : ViewModel, IDisposable
     {
         private readonly ReadonlyReactiveProperty<string> _formattedString;
-
-        private readonly IDisposable _shareSubscription;
         public ReadonlyReactiveProperty<bool> UpdateProperty { get; private set; }
 
         public ReactiveProperty<string> Text { get; private set; }
@@ -41,10 +39,9 @@ namespace ShareLink.ViewModels.ViewModels
                                    .ToReadonlyReactiveProperty();
 
             ShareCommand = _formattedString.Select(text => Uri.IsWellFormedUriString(text, UriKind.Absolute))
-                                       .DistinctUntilChanged()
-                                       .ToReactiveCommand();
+                                           .DistinctUntilChanged()
+                                           .ToReactiveCommand(_ => dataTransferService.Share("Share link", _formattedString.Value, new Uri(_formattedString.Value)));
 
-            _shareSubscription = ShareCommand.Subscribe(_ => dataTransferService.Share("Share link", _formattedString.Value, new Uri(_formattedString.Value)));
 
             var enterPressed = new Subject<bool>();
 
@@ -56,7 +53,6 @@ namespace ShareLink.ViewModels.ViewModels
 
         public void Dispose()
         {
-            _shareSubscription.Dispose();
             _formattedString.Dispose();
             ShareCommand.Dispose();
             Text.Dispose();
