@@ -19,7 +19,8 @@
                       FontSize="30"
                       Text="{Binding Text.Value, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"
                       commands:KeyDownCommand.Command="{Binding KeyPressedCommand}"
-                      Margin="330,0">
+                      MaxWidth="700"
+                      Margin="20,0">
                 <interactivity:Interaction.Behaviors>
                     <behaviors:SelectAllBehavior ChangedProperty="{Binding UpdateProperty.Value}" />
                 </interactivity:Interaction.Behaviors>
