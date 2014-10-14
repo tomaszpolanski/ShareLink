@@ -22,10 +22,11 @@ namespace ShareLink.ViewModels.ViewModels
 
         public MainPageViewModel(IWindowService windowService, IDataTransferService dataTransferService, IClipboardService clipboardService)
         {
-            var clipboardChangedObservable = windowService.IsVisible.Select(isVisible => isVisible ? Observable.FromAsync(clipboardService.GetTextAsync) : 
-                                                                                                 Observable.Empty<string>())
-                                                                .Switch()
-                                                                .Where(clipboardText => !string.IsNullOrEmpty(clipboardText));
+            var clipboardChangedObservable = windowService.IsVisible.Select(isVisible => 
+                                                                            isVisible ? Observable.FromAsync(clipboardService.GetTextAsync) : 
+                                                                                        Observable.Empty<string>())
+                                                                    .Switch()
+                                                                    .Where(clipboardText => !string.IsNullOrEmpty(clipboardText));
 
             Text = clipboardChangedObservable.ToReactiveProperty();
 
