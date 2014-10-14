@@ -8,18 +8,18 @@
     xmlns:prismmvvm="using:Microsoft.Practices.Prism.Mvvm"
     xmlns:interactivity="using:Microsoft.Xaml.Interactivity"
     xmlns:behaviors="using:ShareLink.Behaviors"
+    xmlns:commands="using:ShareLink.Commands"
     prismmvvm:ViewModelLocator.AutoWireViewModel="true"
     mc:Ignorable="d"
     Background="Black">
 
     <Grid Background="Black">
-        <StackPanel 
-                 VerticalAlignment="Center">
-            <TextBox x:Name="LinkBox" 
-                 PlaceholderText="Url"
-                 FontSize="30"
-                 Text="{Binding Text.Value, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"
-                 Margin="330,0">
+        <StackPanel VerticalAlignment="Center">
+            <TextBox  PlaceholderText="Url"
+                      FontSize="30"
+                      Text="{Binding Text.Value, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"
+                      commands:KeyDownCommand.Command="{Binding KeyPressedCommand}"
+                      Margin="330,0">
                 <interactivity:Interaction.Behaviors>
                     <behaviors:SelectAllBehavior ChangedProperty="{Binding UpdateProperty.Value}" />
                 </interactivity:Interaction.Behaviors>

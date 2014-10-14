@@ -7,7 +7,6 @@ using Microsoft.Practices.Prism.Mvvm;
 using Microsoft.Practices.Unity;
 using Services;
 using Services.Interfaces;
-using ShareLink.ViewModels.ViewModels;
 
 namespace ShareLink
 {
