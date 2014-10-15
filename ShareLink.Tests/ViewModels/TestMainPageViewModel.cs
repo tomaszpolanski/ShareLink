@@ -16,6 +16,7 @@ namespace ShareLink.Tests.ViewModels
         private IWindowService _windowService;
         private IDataTransferService _dataTransferService;
         private IClipboardService _clipboardService;
+        private IHttpService _httpService;
 
         [TestInitialize]
         public void Initialize()
@@ -23,6 +24,7 @@ namespace ShareLink.Tests.ViewModels
             _windowService = A.Fake<IWindowService>();
             _dataTransferService = A.Fake<IDataTransferService>();
             _clipboardService = A.Fake<IClipboardService>();
+            _httpService = A.Fake<IHttpService>();
         }
 
         [TestCleanup]
@@ -32,7 +34,7 @@ namespace ShareLink.Tests.ViewModels
 
         private MainPageViewModel CreateViewModel()
         {
-            return new MainPageViewModel(_windowService, _dataTransferService, _clipboardService);
+            return new MainPageViewModel(_windowService, _dataTransferService, _clipboardService, _httpService);
         }
 
         [TestMethod]
