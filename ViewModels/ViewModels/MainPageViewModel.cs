@@ -17,7 +17,7 @@ namespace ShareLink.ViewModels.ViewModels
 
         private readonly IDisposable _shareLinkSubscription;
 
-        public MainPageViewModel(IWindowService windowService, IDataTransferService dataTransferService, IClipboardService clipboardService)
+        public MainPageViewModel(IWindowService windowService, IDataTransferService dataTransferService, IClipboardService clipboardService, IHttpService httpService)
         {
             var clipboardChangedObservable = windowService.IsVisibleObservable.Select(isVisible => 
                                                                                       isVisible ? Observable.FromAsync(clipboardService.GetTextAsync) : 
@@ -43,7 +43,11 @@ namespace ShareLink.ViewModels.ViewModels
                                                           .SelectNull();
 
             _shareLinkSubscription = formattedStringObservable.Sample(ShareCommand.Merge(enterPressedObservable))
-                                                              .Subscribe(url => ShareLink(dataTransferService, url));
+                                                              .Select(url => Observable.FromAsync(token => httpService.GetPageTitleAsync(new Uri(url), token))
+                                                                                       .Select(title => new {Title = title, Url = url}))
+                                                              .Switch()
+                                                              .ObserveOnUI()
+                                                              .Subscribe(shareData => ShareLink(dataTransferService, shareData.Title, shareData.Url));
 
         }
 
@@ -61,9 +65,9 @@ namespace ShareLink.ViewModels.ViewModels
             return (text.StartsWith("http://") ? string.Empty : "http://") + text.Trim();
         }
 
-        private static void ShareLink(IDataTransferService transferService, string url)
+        private static void ShareLink(IDataTransferService transferService, string title, string url)
         {
-            transferService.Share("Share link", url, new Uri(url));
+            transferService.Share(title, url, new Uri(url));
         }
     }
 }

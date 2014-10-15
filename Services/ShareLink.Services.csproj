@@ -39,8 +39,10 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="DataTransferService.cs" />
+    <Compile Include="HttpService.cs" />
     <Compile Include="Interfaces\IClipboardService.cs" />
     <Compile Include="Interfaces\IDataTransferService.cs" />
+    <Compile Include="Interfaces\IHttpService.cs" />
     <Compile Include="Interfaces\IWindowService.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="WindowService.cs" />
