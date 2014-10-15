@@ -1,7 +1,9 @@
 ﻿using System;
+using System.Diagnostics;
+using System.Net.Http;
 using System.Reactive.Linq;
+using System.Reflection;
 using Windows.System;
-using Windows.UI.Xaml;
 using Microsoft.Practices.Prism.Mvvm;
 using Services.Interfaces;
 using Utilities.Reactive;
@@ -33,7 +35,7 @@ namespace ShareLink.ViewModels.ViewModels
                                                        .ToReadonlyReactiveProperty(mode: ReactivePropertyMode.RaiseLatestValueOnSubscribe);
 
             var formattedStringObservable = Text.WhereIsNotNull()
-                                                .Select(AddPrefixIfNeeded);
+                                                .Select(AddPrefixIfNeeded).Publish().RefCount();
 
             var validLinkObservable = formattedStringObservable.Select(text => Uri.IsWellFormedUriString(text, UriKind.Absolute))
                                                                .DistinctUntilChanged();
@@ -46,16 +48,18 @@ namespace ShareLink.ViewModels.ViewModels
 
             var sharingStartedObservable = formattedStringObservable.Select(text => ShareCommand.Merge(enterPressedObservable)
                                                                                                 .Select(_ => text))
-                                                                    .Switch();
+                                                                    .Switch().Publish().RefCount();
             var sharingFinishedObservable = sharingStartedObservable.Select(url => Observable.FromAsync(token => httpService.GetPageTitleAsync(new Uri(url), token))
-                                                                                              .Select(title => new {Title = title, Url = url}))
-                                                                    .Switch();
+                                                                                             .Select(title => new { Title = title, Url = url })
+                                                                                             .Catch(Observable.Return(new { Title = "UNknown", Url = url })))
+                                                                    .Switch().Publish().RefCount();
 
             IsInProgress = sharingStartedObservable.Select(_ => true)
                                                    .Merge(sharingFinishedObservable.Select(_ => false))
                                                    .ToReadonlyReactiveProperty();
 
             _shareLinkSubscription = sharingFinishedObservable.ObserveOnUI()
+                                                                    
                                                               .Subscribe(shareData => ShareLink(dataTransferService, shareData.Title, shareData.Url));
 
         }

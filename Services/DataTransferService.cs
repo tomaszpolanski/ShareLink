@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Diagnostics;
 using System.Reactive.Linq;
 using Windows.ApplicationModel.DataTransfer;
 using Windows.Foundation;
@@ -35,6 +36,7 @@ namespace Services
             _title = title;
             _description = description;
             _webLink = webLink;
+            Debug.WriteLine("Sharing: " + title);
             DataTransferManager.ShowShareUI();
         }
 
