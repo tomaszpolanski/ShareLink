@@ -44,7 +44,7 @@ namespace ShareLink.ViewModels.ViewModels
             var enterPressedObservable = KeyPressedCommand.Where(args => args.Value == VirtualKey.Enter)
                                                           .SelectNull();
 
-            var sharingStartedObservable = formattedStringObservable.Sample(ShareCommand.Merge(enterPressedObservable));
+            var sharingStartedObservable = formattedStringObservable.CombineLatest(ShareCommand.Merge(enterPressedObservable), (text, _) => text);
             var sharingFinishedObservable = sharingStartedObservable
                 .Select(url => Observable.FromAsync(token => httpService.GetPageTitleAsync(new Uri(url), token))
                     .Select(title => new {Title = title, Url = url}))
