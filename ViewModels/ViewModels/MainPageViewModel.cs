@@ -20,8 +20,8 @@ namespace ShareLink.ViewModels.ViewModels
         public MainPageViewModel(IWindowService windowService, IDataTransferService dataTransferService, IClipboardService clipboardService)
         {
             var clipboardChangedObservable = windowService.IsVisibleObservable.Select(isVisible => 
-                                                                              isVisible ? Observable.FromAsync(clipboardService.GetTextAsync) : 
-                                                                                        Observable.Empty<string>())
+                                                                                      isVisible ? Observable.FromAsync(clipboardService.GetTextAsync) : 
+                                                                                                Observable.Empty<string>())
                                                                     .Switch()
                                                                     .Where(clipboardText => !string.IsNullOrEmpty(clipboardText));
 

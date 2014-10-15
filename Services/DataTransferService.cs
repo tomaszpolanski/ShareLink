@@ -1,12 +1,14 @@
 ﻿using System;
+using System.Reactive.Linq;
 using Windows.ApplicationModel.DataTransfer;
+using Windows.Foundation;
 using Services.Interfaces;
 
 namespace Services
 {
     public class DataTransferService : IDataTransferService, IDisposable
     {
-        private readonly DataTransferManager _dataTransferManager;
+        private readonly IDisposable _dataTransferSubscription;
 
         private string _title;
         private string _description;
@@ -14,13 +16,18 @@ namespace Services
 
         public DataTransferService()
         {
-            _dataTransferManager = DataTransferManager.GetForCurrentView();
-            _dataTransferManager.DataRequested += ShareTextHandler;
+            var dataTransferManager = DataTransferManager.GetForCurrentView();
+            _dataTransferSubscription = Observable.FromEventPattern<TypedEventHandler<DataTransferManager, DataRequestedEventArgs>, DataTransferManager, DataRequestedEventArgs>(
+                                                       h => dataTransferManager.DataRequested += h,
+                                                       h => dataTransferManager.DataRequested -= h)
+                                                  .Select(ev => ev.EventArgs.Request.Data)
+                                                  .Subscribe(ShareTextHandler);
+
         }
 
         public void Dispose()
         {
-            _dataTransferManager.DataRequested -= ShareTextHandler;
+            _dataTransferSubscription.Dispose();
         }
 
         public void Share(string title, string description, Uri webLink)
@@ -32,17 +39,14 @@ namespace Services
         }
 
 
-        private void ShareTextHandler(DataTransferManager sender, DataRequestedEventArgs e)
+        private void ShareTextHandler(DataPackage data)
         {
-            DataRequest request = e.Request;
-
-            request.Data.Properties.Title = _title;
-            request.Data.Properties.Description = _description;
-
-            request.Data.SetWebLink(_webLink);
-            _title = null;
-            _description = null;
-            _webLink = null;
+            if (_title != null)
+            {
+                data.Properties.Title = _title;
+                data.Properties.Description = _description;
+                data.SetWebLink(_webLink);
+            }
         }
 
     }
