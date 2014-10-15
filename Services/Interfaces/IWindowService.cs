@@ -1,9 +1,10 @@
-﻿using Utilities.Reactive;
+﻿using System;
 
 namespace Services.Interfaces
 {
     public interface IWindowService
     {
-        ReadonlyReactiveProperty<bool> IsVisible { get; }
+        bool IsVisible { get; }
+        IObservable<bool> IsVisibleObservable { get; } 
     }
 }

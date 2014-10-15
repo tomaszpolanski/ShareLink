@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Reactive.Linq;
+using System.Reactive.Subjects;
 using Windows.UI.Core;
 using Windows.UI.Xaml;
 using Services.Interfaces;
@@ -9,19 +10,24 @@ namespace Services
 {
     public class WindowService : IWindowService
     {
-        public ReadonlyReactiveProperty<bool> IsVisible { get; private set; }
+        private readonly Window _window;
+
+        public bool IsVisible { get { return _window.Visible; } }
+
+        public IObservable<bool> IsVisibleObservable { get; private set; } 
 
         public WindowService()
         {
-            IsVisible = DefineIsVisibleObservable(Window.Current).ToReadonlyReactiveProperty();
+            _window = Window.Current;
+            IsVisibleObservable = DefineIsVisibleObservable(_window).ToReadonlyReactiveProperty();
         }
 
         private static IObservable<bool> DefineIsVisibleObservable(Window window)
         {
             return Observable.FromEventPattern<WindowVisibilityChangedEventHandler, VisibilityChangedEventArgs>(h => window.VisibilityChanged += h,
-                h => window.VisibilityChanged -= h)
-                            .Select(ev => ev.EventArgs.Visible)
-                            .StartWith(window.Visible);
+                                                                                                                h => window.VisibilityChanged -= h)
+                             .Select(ev => ev.EventArgs.Visible)
+                             .StartWith(window.Visible);
         }
     }
 }
