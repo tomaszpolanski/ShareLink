@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Reactive.Linq;
 using Windows.System;
+using Windows.UI.Xaml;
 using Microsoft.Practices.Prism.Mvvm;
 using Services.Interfaces;
 using Utilities.Reactive;
@@ -10,6 +11,7 @@ namespace ShareLink.ViewModels.ViewModels
     public class MainPageViewModel : ViewModel, IDisposable
     {
         public ReadonlyReactiveProperty<string> SelectAllTextTrigger { get; private set; }
+        public ReadonlyReactiveProperty<bool> IsInProgress { get; private set; }
 
         public ReactiveProperty<string> Text { get; private set; }
         public ReactiveCommand ShareCommand { get; private set; }
@@ -42,11 +44,15 @@ namespace ShareLink.ViewModels.ViewModels
             var enterPressedObservable = KeyPressedCommand.Where(args => args.Value == VirtualKey.Enter)
                                                           .SelectNull();
 
-            _shareLinkSubscription = formattedStringObservable.Sample(ShareCommand.Merge(enterPressedObservable))
-                                                              .Select(url => Observable.FromAsync(token => httpService.GetPageTitleAsync(new Uri(url), token))
-                                                                                       .Select(title => new {Title = title, Url = url}))
-                                                              .Switch()
-                                                              .ObserveOnUI()
+            var sharingStartedObservable = formattedStringObservable.Sample(ShareCommand.Merge(enterPressedObservable));
+            var sharingFinishedObservable = sharingStartedObservable
+                .Select(url => Observable.FromAsync(token => httpService.GetPageTitleAsync(new Uri(url), token))
+                    .Select(title => new {Title = title, Url = url}))
+                .Switch();
+
+            IsInProgress = sharingStartedObservable.Select(_ => true).Merge(sharingFinishedObservable.Select(_ => false)).ToReadonlyReactiveProperty();
+
+            _shareLinkSubscription = sharingFinishedObservable.ObserveOnUI()
                                                               .Subscribe(shareData => ShareLink(dataTransferService, shareData.Title, shareData.Url));
 
         }
@@ -58,6 +64,7 @@ namespace ShareLink.ViewModels.ViewModels
             Text.Dispose();
             KeyPressedCommand.Dispose();
             SelectAllTextTrigger.Dispose();
+            IsInProgress.Dispose();
         }
 
         private static string AddPrefixIfNeeded(string text)

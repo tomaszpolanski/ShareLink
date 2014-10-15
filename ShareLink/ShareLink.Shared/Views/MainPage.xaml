@@ -14,6 +14,9 @@
     Background="Black">
 
     <Grid Background="Black">
+        <ProgressBar IsIndeterminate="{Binding IsInProgress.Value}"
+                     VerticalAlignment="Top"
+                     />
         <StackPanel VerticalAlignment="Center">
             <TextBox  PlaceholderText="Url"
                       FontSize="30"
