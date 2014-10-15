@@ -22,7 +22,7 @@
                       MaxWidth="700"
                       Margin="20,0">
                 <interactivity:Interaction.Behaviors>
-                    <behaviors:SelectAllBehavior ChangedProperty="{Binding UpdateProperty.Value}" />
+                    <behaviors:SelectAllBehavior ChangedProperty="{Binding SelectAllTextTrigger.Value}" />
                 </interactivity:Interaction.Behaviors>
             </TextBox>
             <Button Content="Share"

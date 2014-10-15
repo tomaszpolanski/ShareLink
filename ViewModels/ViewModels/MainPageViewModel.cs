@@ -1,9 +1,6 @@
 ﻿using System;
 using System.Reactive.Linq;
-using System.Reactive.Subjects;
-using System.Windows.Input;
 using Windows.System;
-using Microsoft.Practices.Prism.Commands;
 using Microsoft.Practices.Prism.Mvvm;
 using Services.Interfaces;
 using Utilities.Reactive;
@@ -12,7 +9,7 @@ namespace ShareLink.ViewModels.ViewModels
 {
     public class MainPageViewModel : ViewModel, IDisposable
     {
-        public ReadonlyReactiveProperty<string> UpdateProperty { get; private set; }
+        public ReadonlyReactiveProperty<string> SelectAllTextTrigger { get; private set; }
 
         public ReactiveProperty<string> Text { get; private set; }
         public ReactiveCommand ShareCommand { get; private set; }
@@ -30,7 +27,7 @@ namespace ShareLink.ViewModels.ViewModels
 
             Text = clipboardChangedObservable.ToReactiveProperty();
 
-            UpdateProperty = clipboardChangedObservable.Delay(TimeSpan.FromMilliseconds(300))
+            SelectAllTextTrigger = clipboardChangedObservable.Delay(TimeSpan.FromMilliseconds(300))
                                                        .ToReadonlyReactiveProperty(mode: ReactivePropertyMode.RaiseLatestValueOnSubscribe);
 
             var formattedStringObservable = Text.WhereIsNotNull()
@@ -56,7 +53,7 @@ namespace ShareLink.ViewModels.ViewModels
             ShareCommand.Dispose();
             Text.Dispose();
             KeyPressedCommand.Dispose();
-            UpdateProperty.Dispose();
+            SelectAllTextTrigger.Dispose();
         }
 
         private static string AddPrefixIfNeeded(string text)
