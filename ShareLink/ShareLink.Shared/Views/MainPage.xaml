@@ -9,11 +9,15 @@
     xmlns:interactivity="using:Microsoft.Xaml.Interactivity"
     xmlns:behaviors="using:ShareLink.Behaviors"
     xmlns:commands="using:ShareLink.Commands"
+    xmlns:converters="using:ShareLink.Converters"
     prismmvvm:ViewModelLocator.AutoWireViewModel="true"
     mc:Ignorable="d"
     Background="Black">
 
     <Grid Background="Black">
+        <Grid.Resources>
+            <converters:InvertedBooleanConverter x:Key="InvertedBooleanConverter" />
+        </Grid.Resources>
         <ProgressBar IsIndeterminate="{Binding IsInProgress.Value}"
                      VerticalAlignment="Top"
                      />
@@ -23,7 +27,8 @@
                       Text="{Binding Text.Value, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"
                       commands:KeyDownCommand.Command="{Binding KeyPressedCommand}"
                       MaxWidth="700"
-                      Margin="20,0">
+                      Margin="20,0"
+                      IsEnabled="{Binding IsInProgress.Value, Converter={StaticResource InvertedBooleanConverter}}">
                 <interactivity:Interaction.Behaviors>
                     <behaviors:SelectAllBehavior ChangedProperty="{Binding SelectAllTextTrigger.Value}" />
                 </interactivity:Interaction.Behaviors>
@@ -31,6 +36,7 @@
             <Button Content="Share"
                     HorizontalAlignment="Center"
                     Command="{Binding ShareCommand}"
+                    
                     FontSize="30"
                     Height="100"
                     Width="200"
