@@ -1,8 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Reactive;
-using System.Reactive.Concurrency;
-using System.Reactive.Linq;
 using System.Reactive.Subjects;
 using System.Threading;
 using System.Threading.Tasks;
@@ -24,7 +20,7 @@ namespace ShareLink.Tests.ViewModels
         private IClipboardService _clipboardService;
         private IHttpService _httpService;
         private ISchedulerProvider _schedulerProvider;
-        private TestScheduler _testScheduler = new TestScheduler();
+        private readonly TestScheduler _testScheduler = new TestScheduler();
 
         [TestInitialize]
         public void Initialize()
@@ -107,11 +103,29 @@ namespace ShareLink.Tests.ViewModels
             viewModel.SelectAllTextTrigger.Subscribe(_ => selectAllWasTriggered = true);
 
             visibilitySubject.OnNext(true);
-            _testScheduler.AdvanceBy(TimeSpan.FromMilliseconds(300).Ticks);
+            _testScheduler.AdvanceBy(TimeSpan.FromMilliseconds(3000).Ticks);
 
             Assert.IsTrue(selectAllWasTriggered);
         }
 
+        [TestMethod]
+        public void CannotExecuteShareCommandIfTextIsNotValidUri()
+        {
+            var viewModel = CreateViewModel();
 
+            viewModel.Text.Value = "#$%^&*(";
+
+            Assert.AreEqual(false, viewModel.ShareCommand.CanExecute());
+        }
+
+        [TestMethod]
+        public void CanExecuteShareCommandIfTextCanBeChangedToValidUri()
+        {
+            var viewModel = CreateViewModel();
+
+            viewModel.Text.Value = "test";
+
+            Assert.AreEqual(true, viewModel.ShareCommand.CanExecute());
+        }
     }
 }
