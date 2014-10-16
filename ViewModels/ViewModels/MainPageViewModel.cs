@@ -1,9 +1,6 @@
 ﻿using System;
-using System.Diagnostics;
-using System.Net;
 using System.Net.Http;
 using System.Reactive.Linq;
-using System.Reflection;
 using Windows.System;
 using Microsoft.Practices.Prism.Mvvm;
 using Services.Interfaces;

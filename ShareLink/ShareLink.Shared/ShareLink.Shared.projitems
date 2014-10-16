@@ -19,6 +19,7 @@
     <Compile Include="$(MSBuildThisFileDirectory)Behaviors\SelectAllBehavior.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Commands\KeyDownCommand.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Converters\VisibilityConverters.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)DesignViewModels\MainPageDesignViewModel.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Views\MainPage.xaml.cs">
       <DependentUpon>MainPage.xaml</DependentUpon>
     </Compile>

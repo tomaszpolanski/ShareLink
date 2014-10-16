@@ -7,11 +7,13 @@
     xmlns:prism="using:Microsoft.Practices.Prism.StoreApps"
     xmlns:prismmvvm="using:Microsoft.Practices.Prism.Mvvm"
     xmlns:interactivity="using:Microsoft.Xaml.Interactivity"
+    xmlns:designViewModels="using:ShareLink.DesignViewModels"
     xmlns:behaviors="using:ShareLink.Behaviors"
     xmlns:commands="using:ShareLink.Commands"
     xmlns:converters="using:ShareLink.Converters"
     prismmvvm:ViewModelLocator.AutoWireViewModel="true"
     mc:Ignorable="d"
+    d:DataContext="{d:DesignInstance designViewModels:MainPageDesignViewModel, IsDesignTimeCreatable=True}"
     Background="Black">
 
     <Grid Background="Black">
