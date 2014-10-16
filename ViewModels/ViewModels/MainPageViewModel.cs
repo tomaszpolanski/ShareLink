@@ -11,7 +11,7 @@ namespace ShareLink.ViewModels.ViewModels
 {
     public class MainPageViewModel : ViewModel, IDisposable
     {
-        public ReadonlyReactiveProperty<string> SelectAllTextTrigger { get; private set; }
+        public ReadonlyReactiveProperty<bool> SelectAllTextTrigger { get; private set; }
         public ReadonlyReactiveProperty<bool> IsInProgress { get; private set; }
         public ReadonlyReactiveProperty<string> ErrorMessage { get; private set; }
 
@@ -21,7 +21,7 @@ namespace ShareLink.ViewModels.ViewModels
 
         private readonly IDisposable _shareLinkSubscription;
 
-        public MainPageViewModel(IWindowService windowService, IDataTransferService dataTransferService, IClipboardService clipboardService, IHttpService httpService)
+        public MainPageViewModel(IWindowService windowService, IDataTransferService dataTransferService, IClipboardService clipboardService, IHttpService httpService, ISchedulerProvider schedulerProvider)
         {
             var clipboardChangedObservable = windowService.IsVisibleObservable.Select(isVisible => 
                                                                                       isVisible ? Observable.FromAsync(clipboardService.GetTextAsync) : 
@@ -31,8 +31,9 @@ namespace ShareLink.ViewModels.ViewModels
 
             Text = clipboardChangedObservable.ToReactiveProperty();
 
-            SelectAllTextTrigger = clipboardChangedObservable.Delay(TimeSpan.FromMilliseconds(300))
-                                                       .ToReadonlyReactiveProperty(mode: ReactivePropertyMode.RaiseLatestValueOnSubscribe);
+            SelectAllTextTrigger = windowService.IsVisibleObservable.Where(isVisible => isVisible)
+                                                                    .Delay(TimeSpan.FromMilliseconds(300), schedulerProvider.Default)
+                                                                    .ToReadonlyReactiveProperty(mode: ReactivePropertyMode.None);
 
             var formattedStringObservable = Text.WhereIsNotNull()
                                                 .Select(AddPrefixIfNeeded);

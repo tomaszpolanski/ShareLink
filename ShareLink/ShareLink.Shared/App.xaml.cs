@@ -34,6 +34,7 @@ namespace ShareLink
             _container.RegisterType<IWindowService, WindowService>(new ContainerControlledLifetimeManager());
             _container.RegisterType<IDataTransferService, DataTransferService>(new ContainerControlledLifetimeManager());
             _container.RegisterType<IHttpService, HttpService>(new ContainerControlledLifetimeManager());
+            _container.RegisterType<ISchedulerProvider, SchedulerProvider>(new ContainerControlledLifetimeManager());
 #if WINDOWS_APP
             _container.RegisterType<IClipboardService, Services.Windows.ClipboardService>(new ContainerControlledLifetimeManager());
 #elif WINDOWS_PHONE_APP
