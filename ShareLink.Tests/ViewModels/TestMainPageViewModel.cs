@@ -9,6 +9,7 @@ using Services.Interfaces;
 using ShareLink.ViewModels.ViewModels;
 
 
+
 namespace ShareLink.Tests.ViewModels
 {
 
@@ -126,6 +127,49 @@ namespace ShareLink.Tests.ViewModels
             viewModel.Text.Value = "test";
 
             Assert.AreEqual(true, viewModel.ShareCommand.CanExecute());
+        }
+
+        [TestMethod]
+        public void CannotPressEnterCommandIfTextIsNotValidUri()
+        {
+            var viewModel = CreateViewModel();
+
+            viewModel.Text.Value = "#$%^&*(";
+
+            Assert.AreEqual(false, viewModel.KeyPressedCommand.CanExecute());
+        }
+
+        [TestMethod]
+        public void CanPressEnterCommandIfTextCanBeChangedToValidUri()
+        {
+            var viewModel = CreateViewModel();
+            viewModel.Text.Value = "test";
+
+            Assert.AreEqual(true, viewModel.KeyPressedCommand.CanExecute());
+        }
+
+        [TestMethod]
+        public void TriggerShareWhenExecutingShare()
+        {
+            var viewModel = CreateViewModel();
+            viewModel.Text.Value = "test";
+
+            viewModel.ShareCommand.Execute();
+
+            A.CallTo(() => _dataTransferService.Share(A<string>.Ignored, A<string>.Ignored, A<Uri>.Ignored)).MustHaveHappened(Repeated.Exactly.Once);
+        }
+
+        [TestMethod]
+        public void ResolveTitleOfPage()
+        {
+            const string pageTitle = "SomeTitle";
+            A.CallTo(() => _httpService.GetPageTitleAsync(A<Uri>.Ignored, A<CancellationToken>.Ignored)).Returns(Task.FromResult(pageTitle));
+            var viewModel = CreateViewModel();
+            viewModel.Text.Value = "test";
+
+            viewModel.ShareCommand.Execute();
+
+            A.CallTo(() => _dataTransferService.Share(pageTitle, A<string>.Ignored, A<Uri>.Ignored)).MustHaveHappened(Repeated.Exactly.Once);
         }
     }
 }

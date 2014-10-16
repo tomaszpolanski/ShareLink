@@ -17,7 +17,7 @@ namespace ShareLink.ViewModels.ViewModels
 
         public ReactiveProperty<string> Text { get; private set; }
         public ReactiveCommand ShareCommand { get; private set; }
-        public ReactiveCommand<VirtualKey?> KeyPressedCommand { get; private set; }
+        public ReactiveCommand<object> KeyPressedCommand { get; private set; }
 
         private readonly IDisposable _shareLinkSubscription;
 
@@ -42,9 +42,10 @@ namespace ShareLink.ViewModels.ViewModels
                                                                .DistinctUntilChanged();
 
             ShareCommand = validLinkObservable.ToReactiveCommand();
-            KeyPressedCommand = validLinkObservable.ToReactiveCommand<VirtualKey?>();
+            KeyPressedCommand = validLinkObservable.ToReactiveCommand<object>();
 
-            var enterPressedObservable = KeyPressedCommand.Where(args => args.Value == VirtualKey.Enter)
+            var enterPressedObservable = KeyPressedCommand.Cast<VirtualKey?>()
+                                                          .Where(args => args.Value == VirtualKey.Enter)
                                                           .SelectNull();
 
             var shareTrigger = formattedStringObservable.Select(text => ShareCommand.Merge(enterPressedObservable)
