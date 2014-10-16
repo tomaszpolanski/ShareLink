@@ -55,7 +55,7 @@ namespace ShareLink.ViewModels.ViewModels
                                                                     .RefCount();
             var urlTitleResolveObservable = shareTrigger.Select(url => Observable.FromAsync(token => httpService.GetPageTitleAsync(new Uri(url), token))
                                                                                              .Select(title => new ShareData(title, url))
-                                                                                             .Catch<ShareData, HttpRequestException>(exception => Observable.Return(new ShareData("Unknown", url, exception))))
+                                                                                             .Catch<ShareData, HttpRequestException>(exception => Observable.Return(new ShareData(url.ToString(), url, exception))))
                                                                     .Switch()
                                                                     .Publish()
                                                                     .RefCount();
