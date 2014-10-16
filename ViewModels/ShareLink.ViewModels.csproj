@@ -80,6 +80,10 @@
       <Project>{67747A3F-3D80-4CB6-95F7-FD26208AB748}</Project>
       <Name>ShareLink.Services</Name>
     </ProjectReference>
+    <ProjectReference Include="..\ShareLink.Models\ShareLink.Models.csproj">
+      <Project>{cf3be0ce-b6bc-48d1-b892-4f9175a32a61}</Project>
+      <Name>ShareLink.Models</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath32)\Microsoft\Portable\$(TargetFrameworkVersion)\Microsoft.Portable.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

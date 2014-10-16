@@ -125,6 +125,19 @@ namespace ShareLink.Converters
         }
     }
 
+    public sealed class StringToBooleanConverter : IValueConverter
+    {
+        public object Convert(object value, Type targetType, object parameter, string language)
+        {
+            return string.IsNullOrEmpty(value as string);
+        }
+
+        public object ConvertBack(object value, Type targetType, object parameter, string language)
+        {
+            throw new NotSupportedException();
+        }
+    }
+
     /// <summary>
     /// Value converter that translates an empty string to shown and non empty to hidden.
     /// </summary>

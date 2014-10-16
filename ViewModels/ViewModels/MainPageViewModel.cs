@@ -1,11 +1,13 @@
 ﻿using System;
 using System.Diagnostics;
+using System.Net;
 using System.Net.Http;
 using System.Reactive.Linq;
 using System.Reflection;
 using Windows.System;
 using Microsoft.Practices.Prism.Mvvm;
 using Services.Interfaces;
+using ShareLink.Models;
 using Utilities.Reactive;
 
 namespace ShareLink.ViewModels.ViewModels
@@ -14,6 +16,7 @@ namespace ShareLink.ViewModels.ViewModels
     {
         public ReadonlyReactiveProperty<string> SelectAllTextTrigger { get; private set; }
         public ReadonlyReactiveProperty<bool> IsInProgress { get; private set; }
+        public ReadonlyReactiveProperty<string> ErrorMessage { get; private set; }
 
         public ReactiveProperty<string> Text { get; private set; }
         public ReactiveCommand ShareCommand { get; private set; }
@@ -35,7 +38,7 @@ namespace ShareLink.ViewModels.ViewModels
                                                        .ToReadonlyReactiveProperty(mode: ReactivePropertyMode.RaiseLatestValueOnSubscribe);
 
             var formattedStringObservable = Text.WhereIsNotNull()
-                                                .Select(AddPrefixIfNeeded).Publish().RefCount();
+                                                .Select(AddPrefixIfNeeded);
 
             var validLinkObservable = formattedStringObservable.Select(text => Uri.IsWellFormedUriString(text, UriKind.Absolute))
                                                                .DistinctUntilChanged();
@@ -46,21 +49,30 @@ namespace ShareLink.ViewModels.ViewModels
             var enterPressedObservable = KeyPressedCommand.Where(args => args.Value == VirtualKey.Enter)
                                                           .SelectNull();
 
-            var sharingStartedObservable = formattedStringObservable.Select(text => ShareCommand.Merge(enterPressedObservable)
+            var shareTrigger = formattedStringObservable.Select(text => ShareCommand.Merge(enterPressedObservable)
                                                                                                 .Select(_ => text))
-                                                                    .Switch().Publish().RefCount();
-            var sharingFinishedObservable = sharingStartedObservable.Select(url => Observable.FromAsync(token => httpService.GetPageTitleAsync(new Uri(url), token))
-                                                                                             .Select(title => new { Title = title, Url = url })
-                                                                                             .Catch(Observable.Return(new { Title = "UNknown", Url = url })))
-                                                                    .Switch().Publish().RefCount();
+                                                                    .Switch()
+                                                                    .Publish()
+                                                                    .RefCount();
+            var urlTitleResolveObservable = shareTrigger.Select(url => Observable.FromAsync(token => httpService.GetPageTitleAsync(new Uri(url), token))
+                                                                                             .Select(title => new ShareData(title, url))
+                                                                                             .Catch<ShareData, HttpRequestException>(exception => Observable.Return(new ShareData("Unknown", url, exception))))
+                                                                    .Switch()
+                                                                    .Publish()
+                                                                    .RefCount();
 
-            IsInProgress = sharingStartedObservable.Select(_ => true)
-                                                   .Merge(sharingFinishedObservable.Select(_ => false))
+            IsInProgress = shareTrigger.Select(_ => true)
+                                                   .Merge(urlTitleResolveObservable.Select(_ => false))
                                                    .ToReadonlyReactiveProperty();
 
-            _shareLinkSubscription = sharingFinishedObservable.ObserveOnUI()
+            ErrorMessage = shareTrigger.Select(_ => string.Empty)
+                                       .Merge(urlTitleResolveObservable.Where(shareData => shareData.Exception != null)
+                                                                       .Select(_ => "Couldn't resolve page title"))    
+                                       .ToReadonlyReactiveProperty(String.Empty);
+
+            _shareLinkSubscription = urlTitleResolveObservable.ObserveOnUI()
                                                                     
-                                                              .Subscribe(shareData => ShareLink(dataTransferService, shareData.Title, shareData.Url));
+                                                              .Subscribe(shareData => ShareLink(dataTransferService, shareData.Title, shareData.Uri));
 
         }
 
@@ -72,6 +84,7 @@ namespace ShareLink.ViewModels.ViewModels
             KeyPressedCommand.Dispose();
             SelectAllTextTrigger.Dispose();
             IsInProgress.Dispose();
+            ErrorMessage.Dispose();
         }
 
         private static string AddPrefixIfNeeded(string text)
@@ -79,9 +92,9 @@ namespace ShareLink.ViewModels.ViewModels
             return (text.StartsWith("http://") ? string.Empty : "http://") + text.Trim();
         }
 
-        private static void ShareLink(IDataTransferService transferService, string title, string url)
+        private static void ShareLink(IDataTransferService transferService, string title, Uri uri)
         {
-            transferService.Share(title, url, new Uri(url));
+            transferService.Share(title, uri.ToString(), uri);
         }
     }
 }

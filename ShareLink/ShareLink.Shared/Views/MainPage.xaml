@@ -19,9 +19,13 @@
             <converters:InvertedBooleanConverter x:Key="InvertedBooleanConverter" />
         </Grid.Resources>
         <ProgressBar IsIndeterminate="{Binding IsInProgress.Value}"
-                     VerticalAlignment="Top"
-                     />
+                     VerticalAlignment="Top"/>
         <StackPanel VerticalAlignment="Center">
+            <TextBlock Style="{StaticResource TitleTextBlockStyle}"
+                       HorizontalAlignment="Center"
+                       Text="{Binding ErrorMessage.Value}"
+                       Margin="0,0,0,30"
+                       FontSize="25"/>
             <TextBox  PlaceholderText="Url"
                       FontSize="30"
                       Text="{Binding Text.Value, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"
@@ -36,7 +40,6 @@
             <Button Content="Share"
                     HorizontalAlignment="Center"
                     Command="{Binding ShareCommand}"
-                    
                     FontSize="30"
                     Height="100"
                     Width="200"
