@@ -95,12 +95,12 @@
       <Project>{5c6b624f-191d-40a7-ae78-7fb74f72400c}</Project>
       <Name>Utilities.Reactive</Name>
     </ProjectReference>
-    <ProjectReference Include="..\Services\ShareLink.Services.csproj">
-      <Project>{67747a3f-3d80-4cb6-95f7-fd26208ab748}</Project>
+    <ProjectReference Include="..\ShareLink.Services\ShareLink.Services.csproj">
+      <Project>{67747A3F-3D80-4CB6-95F7-FD26208AB748}</Project>
       <Name>ShareLink.Services</Name>
     </ProjectReference>
-    <ProjectReference Include="..\ViewModels\ShareLink.ViewModels.csproj">
-      <Project>{a3a9c1f0-8e01-48f3-b599-093df25c384f}</Project>
+    <ProjectReference Include="..\ShareLink.ViewModels\ShareLink.ViewModels.csproj">
+      <Project>{A3A9C1F0-8E01-48F3-B599-093DF25C384F}</Project>
       <Name>ShareLink.ViewModels</Name>
     </ProjectReference>
   </ItemGroup>

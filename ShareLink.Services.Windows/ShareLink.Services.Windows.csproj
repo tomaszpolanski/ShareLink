@@ -101,15 +101,14 @@
     <Prefer32Bit>true</Prefer32Bit>
   </PropertyGroup>
   <ItemGroup>
-    <!-- A reference to the entire .Net Framework and Windows SDK are automatically included -->
-    <ProjectReference Include="..\Services\ShareLink.Services.csproj">
-      <Project>{67747a3f-3d80-4cb6-95f7-fd26208ab748}</Project>
-      <Name>ShareLink.Services</Name>
-    </ProjectReference>
-  </ItemGroup>
-  <ItemGroup>
     <Compile Include="ClipboardService.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\ShareLink.Services\ShareLink.Services.csproj">
+      <Project>{67747A3F-3D80-4CB6-95F7-FD26208AB748}</Project>
+      <Name>ShareLink.Services</Name>
+    </ProjectReference>
   </ItemGroup>
   <PropertyGroup Condition=" '$(VisualStudioVersion)' == '' or '$(VisualStudioVersion)' &lt; '12.0' ">
     <VisualStudioVersion>12.0</VisualStudioVersion>

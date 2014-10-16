@@ -7,6 +7,7 @@ using Microsoft.Practices.Prism.Mvvm;
 using Microsoft.Practices.Unity;
 using Services;
 using Services.Interfaces;
+using ShareLink.ViewModels.ViewModels;
 
 namespace ShareLink
 {
@@ -46,6 +47,7 @@ namespace ShareLink
                 var viewModelTypeName = string.Format(CultureInfo.InvariantCulture,
                     "ShareLink.ViewModels.ViewModels.{0}ViewModel, ShareLink.ViewModels, Version=1.0.0.0, Culture=neutral",
                     viewType.Name);
+
                 var viewModelType = Type.GetType(viewModelTypeName);
 
                 return viewModelType;

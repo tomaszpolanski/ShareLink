@@ -160,16 +160,16 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\..\Services\ShareLink.Services.csproj">
-      <Project>{67747A3F-3D80-4CB6-95F7-FD26208AB748}</Project>
-      <Name>ShareLink.Services</Name>
-    </ProjectReference>
     <ProjectReference Include="..\..\ShareLink.Services.Windows\ShareLink.Services.Windows.csproj">
       <Project>{46e0db51-79f2-497e-95ff-a3ec5c4a4647}</Project>
       <Name>ShareLink.Services.Windows</Name>
     </ProjectReference>
-    <ProjectReference Include="..\..\ViewModels\ShareLink.ViewModels.csproj">
-      <Project>{a3a9c1f0-8e01-48f3-b599-093df25c384f}</Project>
+    <ProjectReference Include="..\..\ShareLink.Services\ShareLink.Services.csproj">
+      <Project>{67747A3F-3D80-4CB6-95F7-FD26208AB748}</Project>
+      <Name>ShareLink.Services</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\ShareLink.ViewModels\ShareLink.ViewModels.csproj">
+      <Project>{A3A9C1F0-8E01-48F3-B599-093DF25C384F}</Project>
       <Name>ShareLink.ViewModels</Name>
     </ProjectReference>
   </ItemGroup>

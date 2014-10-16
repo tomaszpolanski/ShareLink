@@ -140,13 +140,17 @@
     </SDKReference>
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\..\Services\ShareLink.Services.csproj">
-      <Project>{67747A3F-3D80-4CB6-95F7-FD26208AB748}</Project>
-      <Name>ShareLink.Services</Name>
-    </ProjectReference>
     <ProjectReference Include="..\..\ShareLink.Services.WindowsPhone\ShareLink.Services.WindowsPhone.csproj">
       <Project>{7946e452-50c7-4520-a6b1-8972bb0a82f4}</Project>
       <Name>ShareLink.Services.WindowsPhone</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\ShareLink.Services\ShareLink.Services.csproj">
+      <Project>{67747A3F-3D80-4CB6-95F7-FD26208AB748}</Project>
+      <Name>ShareLink.Services</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\ShareLink.ViewModels\ShareLink.ViewModels.csproj">
+      <Project>{A3A9C1F0-8E01-48F3-B599-093DF25C384F}</Project>
+      <Name>ShareLink.ViewModels</Name>
     </ProjectReference>
   </ItemGroup>
   <PropertyGroup Condition=" '$(VisualStudioVersion)' == '' or '$(VisualStudioVersion)' &lt; '12.0' ">
