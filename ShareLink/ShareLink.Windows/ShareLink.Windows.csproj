@@ -160,6 +160,10 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\..\ShareLink.Services.Universal\ShareLink.Services.Universal.csproj">
+      <Project>{9f1c41b6-c9e0-4200-8b6e-6144dc360a5e}</Project>
+      <Name>ShareLink.Services.Universal</Name>
+    </ProjectReference>
     <ProjectReference Include="..\..\ShareLink.Services.Windows\ShareLink.Services.Windows.csproj">
       <Project>{46e0db51-79f2-497e-95ff-a3ec5c4a4647}</Project>
       <Name>ShareLink.Services.Windows</Name>
@@ -177,6 +181,9 @@
     <SDKReference Include="BehaviorsXamlSDKManaged, Version=12.0">
       <Name>Behaviors SDK %28XAML%29</Name>
     </SDKReference>
+  </ItemGroup>
+  <ItemGroup>
+    <WCFMetadata Include="Service References\" />
   </ItemGroup>
   <PropertyGroup Condition=" '$(VisualStudioVersion)' == '' or '$(VisualStudioVersion)' &lt; '12.0' ">
     <VisualStudioVersion>12.0</VisualStudioVersion>

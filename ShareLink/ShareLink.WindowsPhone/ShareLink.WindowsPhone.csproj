@@ -140,6 +140,10 @@
     </SDKReference>
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\..\ShareLink.Services.Universal\ShareLink.Services.Universal.csproj">
+      <Project>{9f1c41b6-c9e0-4200-8b6e-6144dc360a5e}</Project>
+      <Name>ShareLink.Services.Universal</Name>
+    </ProjectReference>
     <ProjectReference Include="..\..\ShareLink.Services.WindowsPhone\ShareLink.Services.WindowsPhone.csproj">
       <Project>{7946e452-50c7-4520-a6b1-8972bb0a82f4}</Project>
       <Name>ShareLink.Services.WindowsPhone</Name>

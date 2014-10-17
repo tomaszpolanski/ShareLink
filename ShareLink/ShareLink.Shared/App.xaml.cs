@@ -7,6 +7,9 @@ using Microsoft.Practices.Prism.Mvvm;
 using Microsoft.Practices.Unity;
 using Services;
 using Services.Interfaces;
+using ShareLink.Services;
+using ShareLink.Services.Interfaces;
+using ShareLink.Services.Universal;
 using ShareLink.ViewModels.ViewModels;
 
 namespace ShareLink
@@ -36,6 +39,7 @@ namespace ShareLink
             _container.RegisterType<IDataTransferService, DataTransferService>(new ContainerControlledLifetimeManager());
             _container.RegisterType<IHttpService, HttpService>(new ContainerControlledLifetimeManager());
             _container.RegisterType<ISchedulerProvider, SchedulerProvider>(new ContainerControlledLifetimeManager());
+            _container.RegisterType<ITextToSpeechService, TextToSpeechService>(new ContainerControlledLifetimeManager());
 #if WINDOWS_APP
             _container.RegisterType<IClipboardService, Services.Windows.ClipboardService>(new ContainerControlledLifetimeManager());
 #elif WINDOWS_PHONE_APP

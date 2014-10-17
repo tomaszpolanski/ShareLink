@@ -5,6 +5,7 @@ using Windows.System;
 using Microsoft.Practices.Prism.Mvvm;
 using Services.Interfaces;
 using ShareLink.Models;
+using ShareLink.Services.Interfaces;
 using Utilities.Reactive;
 
 namespace ShareLink.ViewModels.ViewModels
@@ -20,8 +21,14 @@ namespace ShareLink.ViewModels.ViewModels
         public ReactiveCommand<object> KeyPressedCommand { get; private set; }
 
         private readonly IDisposable _shareLinkSubscription;
+        private readonly IDisposable _textToSpeechSubscription;
 
-        public MainPageViewModel(IWindowService windowService, IDataTransferService dataTransferService, IClipboardService clipboardService, IHttpService httpService, ISchedulerProvider schedulerProvider)
+        public MainPageViewModel(IWindowService windowService, 
+                                 IDataTransferService dataTransferService, 
+                                 IClipboardService clipboardService, 
+                                 IHttpService httpService, 
+                                 ISchedulerProvider schedulerProvider,
+                                 ITextToSpeechService textToSpeechService)
         {
             var clipboardChangedObservable = windowService.IsVisibleObservable.Select(isVisible => 
                                                                                       isVisible ? Observable.FromAsync(clipboardService.GetTextAsync) : 
@@ -69,6 +76,14 @@ namespace ShareLink.ViewModels.ViewModels
                                                                        .Select(_ => "Couldn't resolve page title"))    
                                        .ToReadonlyReactiveProperty(String.Empty);
 
+            _textToSpeechSubscription = urlTitleResolveObservable.Where(shareData => shareData.Exception == null)
+                .SubscribeOnUI()
+                .ObserveOnUI()
+                .Select(shareData => Observable.FromAsync(token => textToSpeechService.PlayTextAsync(shareData.Title, token)))
+                .Switch()
+                
+                .Subscribe();
+
             _shareLinkSubscription = urlTitleResolveObservable.ObserveOnUI()
                                                                     
                                                               .Subscribe(shareData => ShareLink(dataTransferService, shareData.Title, shareData.Uri));
@@ -84,6 +99,7 @@ namespace ShareLink.ViewModels.ViewModels
             SelectAllTextTrigger.Dispose();
             IsInProgress.Dispose();
             ErrorMessage.Dispose();
+            _textToSpeechSubscription.Dispose();
         }
 
         private static string AddPrefixIfNeeded(string text)

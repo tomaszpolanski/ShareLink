@@ -5,7 +5,7 @@ using Windows.ApplicationModel.DataTransfer;
 using Windows.Foundation;
 using Services.Interfaces;
 
-namespace Services
+namespace ShareLink.Services
 {
     public class DataTransferService : IDataTransferService, IDisposable
     {

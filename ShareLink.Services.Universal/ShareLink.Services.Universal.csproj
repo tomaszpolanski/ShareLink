@@ -5,15 +5,15 @@
     <MinimumVisualStudioVersion>12.0</MinimumVisualStudioVersion>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{67747A3F-3D80-4CB6-95F7-FD26208AB748}</ProjectGuid>
+    <ProjectGuid>{9F1C41B6-C9E0-4200-8B6E-6144DC360A5E}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>ShareLink.Services</RootNamespace>
-    <AssemblyName>ShareLink.Services</AssemblyName>
+    <RootNamespace>ShareLink.Services.Universal</RootNamespace>
+    <AssemblyName>ShareLink.Services.Universal</AssemblyName>
     <DefaultLanguage>en-US</DefaultLanguage>
     <FileAlignment>512</FileAlignment>
     <ProjectTypeGuids>{786C830F-07A1-408B-BD7F-6EE04809D6DB};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
-    <TargetFrameworkProfile>Profile151</TargetFrameworkProfile>
+    <TargetFrameworkProfile>Profile32</TargetFrameworkProfile>
     <TargetFrameworkVersion>v4.6</TargetFrameworkVersion>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
@@ -34,45 +34,19 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <!-- A reference to the entire .NET Framework is automatically included -->
+    <ProjectReference Include="..\ShareLink.Services\ShareLink.Services.csproj">
+      <Project>{67747a3f-3d80-4cb6-95f7-fd26208ab748}</Project>
+      <Name>ShareLink.Services</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
     <TargetPlatform Include="WindowsPhoneApp, Version=8.1" />
     <TargetPlatform Include="Windows, Version=8.1" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="DataTransferService.cs" />
-    <Compile Include="HttpService.cs" />
-    <Compile Include="Interfaces\IClipboardService.cs" />
-    <Compile Include="Interfaces\IDataTransferService.cs" />
-    <Compile Include="Interfaces\IHttpService.cs" />
-    <Compile Include="Interfaces\ISchedulerProvider.cs" />
-    <Compile Include="Interfaces\ITextToSpeechService.cs" />
-    <Compile Include="Interfaces\IWindowService.cs" />
+    <Compile Include="TextToSpeechService.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="SchedulerProvider.cs" />
-    <Compile Include="WindowService.cs" />
-  </ItemGroup>
-  <ItemGroup>
-    <Reference Include="System.Reactive.Core">
-      <HintPath>..\packages\Rx-Core.2.2.5\lib\portable-win81+wpa81\System.Reactive.Core.dll</HintPath>
-    </Reference>
-    <Reference Include="System.Reactive.Interfaces">
-      <HintPath>..\packages\Rx-Interfaces.2.2.5\lib\portable-win81+wpa81\System.Reactive.Interfaces.dll</HintPath>
-    </Reference>
-    <Reference Include="System.Reactive.Linq">
-      <HintPath>..\packages\Rx-Linq.2.2.5\lib\portable-win81+wpa81\System.Reactive.Linq.dll</HintPath>
-    </Reference>
-    <Reference Include="System.Reactive.PlatformServices">
-      <HintPath>..\packages\Rx-PlatformServices.2.2.5\lib\portable-win81+wpa81\System.Reactive.PlatformServices.dll</HintPath>
-    </Reference>
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="app.config" />
-    <None Include="packages.config" />
-  </ItemGroup>
-  <ItemGroup>
-    <ProjectReference Include="..\..\Utilities\Utilities.Reactive\Utilities.Reactive.csproj">
-      <Project>{5c6b624f-191d-40a7-ae78-7fb74f72400c}</Project>
-      <Name>Utilities.Reactive</Name>
-    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath32)\Microsoft\Portable\$(TargetFrameworkVersion)\Microsoft.Portable.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
