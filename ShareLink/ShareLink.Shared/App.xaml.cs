@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Globalization;
 using System.Threading.Tasks;
 using Windows.ApplicationModel.Activation;
@@ -11,7 +12,10 @@ using ShareLink.Services;
 using ShareLink.Services.Interfaces;
 using ShareLink.Services.Universal;
 using ShareLink.ViewModels.ViewModels;
-
+using ShareLink.Views;
+#if WINDOWS_APP
+using Windows.UI.ApplicationSettings;
+#endif
 namespace ShareLink
 {
     public sealed partial class App : MvvmAppBase
@@ -63,5 +67,15 @@ namespace ShareLink
         {
             return _container.Resolve(type);
         }
+
+#if WINDOWS_APP
+        protected override IList<SettingsCommand> GetSettingsCommands()
+        {
+            var settingsCommands = new List<SettingsCommand>();
+            settingsCommands.Add(new SettingsCommand(Guid.NewGuid().ToString(), "Settings", (c) => new SettingsPage().Show()));
+
+            return settingsCommands;
+        }
+#endif
     }
 }
