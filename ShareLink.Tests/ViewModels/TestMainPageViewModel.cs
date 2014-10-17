@@ -6,6 +6,7 @@ using FakeItEasy;
 using Microsoft.Reactive.Testing;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Services.Interfaces;
+using ShareLink.Services;
 using ShareLink.Services.Interfaces;
 using ShareLink.ViewModels.ViewModels;
 
@@ -24,6 +25,7 @@ namespace ShareLink.Tests.ViewModels
         private ISchedulerProvider _schedulerProvider;
         private readonly TestScheduler _testScheduler = new TestScheduler();
         private ITextToSpeechService _textToSpeechService;
+        private IApplicationDataContainer _applicationDataContainer;
 
         [TestInitialize]
         public void Initialize()
@@ -34,6 +36,7 @@ namespace ShareLink.Tests.ViewModels
             _httpService = A.Fake<IHttpService>();
             _schedulerProvider = A.Fake<ISchedulerProvider>();
             _textToSpeechService = A.Fake<ITextToSpeechService>();
+            _applicationDataContainer = A.Fake<IApplicationDataContainer>();
 
             A.CallTo(() => _schedulerProvider.Default).Returns(_testScheduler);
         }
@@ -45,7 +48,7 @@ namespace ShareLink.Tests.ViewModels
 
         private MainPageViewModel CreateViewModel()
         {
-            return new MainPageViewModel(_windowService, _dataTransferService, _clipboardService, _httpService, _schedulerProvider, _textToSpeechService);
+            return new MainPageViewModel(_windowService, _dataTransferService, _clipboardService, _httpService, _schedulerProvider, _textToSpeechService, new ApplicationSettingsService(_applicationDataContainer));
         }
 
         [TestMethod]

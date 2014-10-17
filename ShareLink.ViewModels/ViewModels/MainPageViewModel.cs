@@ -5,6 +5,7 @@ using Windows.System;
 using Microsoft.Practices.Prism.Mvvm;
 using Services.Interfaces;
 using ShareLink.Models;
+using ShareLink.Services;
 using ShareLink.Services.Interfaces;
 using Utilities.Reactive;
 
@@ -28,7 +29,8 @@ namespace ShareLink.ViewModels.ViewModels
                                  IClipboardService clipboardService, 
                                  IHttpService httpService, 
                                  ISchedulerProvider schedulerProvider,
-                                 ITextToSpeechService textToSpeechService)
+                                 ITextToSpeechService textToSpeechService,
+                                 ApplicationSettingsService settingsService)
         {
             var clipboardChangedObservable = windowService.IsVisibleObservable.Select(isVisible => 
                                                                                       isVisible ? Observable.FromAsync(clipboardService.GetTextAsync) : 
@@ -76,7 +78,8 @@ namespace ShareLink.ViewModels.ViewModels
                                                                        .Select(_ => "Couldn't resolve page title"))    
                                        .ToReadonlyReactiveProperty(String.Empty);
 
-            _textToSpeechSubscription = urlTitleResolveObservable.Where(shareData => shareData.Exception == null)
+            _textToSpeechSubscription = urlTitleResolveObservable.Where(_ => settingsService.IsSpeechEnabled)
+                .Where(shareData => shareData.Exception == null)
                 .SubscribeOnUI()
                 .ObserveOnUI()
                 .Select(shareData => Observable.FromAsync(token => textToSpeechService.PlayTextAsync(shareData.Title, token)))

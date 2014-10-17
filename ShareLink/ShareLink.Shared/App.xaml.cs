@@ -39,6 +39,7 @@ namespace ShareLink
 
             _container.RegisterInstance(NavigationService);
             _container.RegisterInstance(SessionStateService);
+            _container.RegisterInstance(new ApplicationSettingsService(new PlatformApplicationDataContainer()));
             _container.RegisterType<IWindowService, WindowService>(new ContainerControlledLifetimeManager());
             _container.RegisterType<IDataTransferService, DataTransferService>(new ContainerControlledLifetimeManager());
             _container.RegisterType<IHttpService, HttpService>(new ContainerControlledLifetimeManager());
