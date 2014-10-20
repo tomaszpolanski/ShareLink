@@ -1,4 +1,6 @@
 ﻿using System;
+using System.Collections.Generic;
+using Windows.UI.Xaml.Navigation;
 using Microsoft.Practices.Prism.Mvvm;
 using Microsoft.Practices.Prism.Mvvm.Interfaces;
 using ShareLink.Services;
@@ -21,7 +23,7 @@ namespace ShareLink.ViewModels.ViewModels
 
         public SettingsPageViewModel(ApplicationSettingsService settingsService)
         {
-            IsSpeechEnabled = settingsService.IsSpeechEnabledObservable.ToReactiveProperty();
+            IsSpeechEnabled = settingsService.IsSpeechEnabledObservable.ToReactiveProperty(); 
             _isSpeechEnabledSubscription = IsSpeechEnabled.Subscribe(isSpeechEnabled => settingsService.IsSpeechEnabled = isSpeechEnabled);
 
         }
@@ -32,5 +34,15 @@ namespace ShareLink.ViewModels.ViewModels
             IsSpeechEnabled.Dispose();
         }
 
+        public override void OnNavigatedFrom(Dictionary<string, object> viewModelState, bool suspending)
+        {
+            base.OnNavigatedFrom(viewModelState, suspending);
+            Dispose();
+        }
+
+        public override void OnNavigatedTo(object navigationParameter, NavigationMode navigationMode, Dictionary<string, object> viewModelState)
+        {
+            base.OnNavigatedTo(navigationParameter, navigationMode, viewModelState);
+        }
     }
 }

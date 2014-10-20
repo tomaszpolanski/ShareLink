@@ -1,6 +1,8 @@
-﻿namespace ShareLink.Views
+﻿using Microsoft.Practices.Prism.StoreApps;
+
+namespace ShareLink.Views
 {
-    public sealed partial class MainPage
+    public sealed partial class MainPage : VisualStateAwarePage
     {
         public MainPage()
         {

@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Net.Http;
 using System.Reactive.Linq;
 using Windows.System;
@@ -103,6 +104,12 @@ namespace ShareLink.ViewModels.ViewModels
             IsInProgress.Dispose();
             ErrorMessage.Dispose();
             _textToSpeechSubscription.Dispose();
+        }
+
+        public override void OnNavigatedFrom(Dictionary<string, object> viewModelState, bool suspending)
+        {
+            base.OnNavigatedFrom(viewModelState, suspending);
+            Dispose();
         }
 
         private static string AddPrefixIfNeeded(string text)
