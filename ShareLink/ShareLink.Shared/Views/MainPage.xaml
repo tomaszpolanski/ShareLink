@@ -33,6 +33,7 @@
                       Text="{Binding Text.Value, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"
                       commands:KeyDownCommand.Command="{Binding KeyPressedCommand}"
                       MaxWidth="700"
+                      InputScope="Url"
                       Margin="20,0"
                       IsEnabled="{Binding IsInProgress.Value, Converter={StaticResource InvertedBooleanConverter}}">
                 <interactivity:Interaction.Behaviors>
@@ -49,4 +50,18 @@
         </StackPanel>
 
     </Grid>
+    <Page.BottomAppBar>
+        <CommandBar>
+            <CommandBar.PrimaryCommands>
+               <AppBarButton Label="Share"
+                             Icon="Send"
+                             Command="{Binding ShareCommand}"/>
+            </CommandBar.PrimaryCommands>
+            <CommandBar.SecondaryCommands>
+                <AppBarButton Label="Settings"
+                              Icon="Setting"
+                              Command="{Binding SettingsCommand}"/>
+            </CommandBar.SecondaryCommands>
+        </CommandBar>
+    </Page.BottomAppBar>
 </prism:VisualStateAwarePage>

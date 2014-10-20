@@ -33,5 +33,10 @@ namespace ShareLink.DesignViewModels
         {
             get { return null; }
         }
+
+        public ICommand ShowSettingsCommand
+        {
+            get { return null; }
+        }
     }
 }

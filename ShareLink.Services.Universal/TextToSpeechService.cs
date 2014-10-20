@@ -17,25 +17,18 @@ namespace ShareLink.Services.Universal
         {
             try
             {
-                var voice = GetSpeechVoice();
-
-                if (voice != null)
+                using (var speech = new SpeechSynthesizer())
                 {
-                    using( var speech = new SpeechSynthesizer() {Voice = voice})
+                    using (var speechStream = await speech.SynthesizeTextToStreamAsync(text).AsTask(token))
                     {
-                        using( var speechStream = await speech.SynthesizeTextToStreamAsync(text).AsTask(token))
-                        {
-                            await PlayStreamAsync(speechStream, speechStream.ContentType, token);
-                        }
+                        await PlayStreamAsync(speechStream, speechStream.ContentType, token);
                     }
                 }
             }
             catch (Exception e)
             {
-                
                 throw e;
             }
-
         }
 
 
@@ -60,22 +53,9 @@ namespace ShareLink.Services.Universal
             }
             catch (TaskCanceledException)
             {
-                
             }
             soundPlayer.Stop();
         }
 
-
-        private static VoiceInformation GetSpeechVoice()
-        {
-            string language = CultureInfo.CurrentCulture.ToString();
-            var voices = SpeechSynthesizer.AllVoices.Where(v => v.Language == language);
-            var voice = voices.FirstOrDefault(v => v.Gender == VoiceGender.Female);
-            if (voice == null)
-            {
-                voice = voices.FirstOrDefault();
-            }
-            return voice;
-        }
     }
 }

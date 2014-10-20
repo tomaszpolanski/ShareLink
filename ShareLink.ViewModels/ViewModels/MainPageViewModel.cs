@@ -2,8 +2,11 @@
 using System.Collections.Generic;
 using System.Net.Http;
 using System.Reactive.Linq;
+using System.Windows.Input;
 using Windows.System;
+using Microsoft.Practices.Prism.Commands;
 using Microsoft.Practices.Prism.Mvvm;
+using Microsoft.Practices.Prism.Mvvm.Interfaces;
 using Services.Interfaces;
 using ShareLink.Models;
 using ShareLink.Services;
@@ -21,6 +24,7 @@ namespace ShareLink.ViewModels.ViewModels
         public ReactiveProperty<string> Text { get; private set; }
         public ReactiveCommand ShareCommand { get; private set; }
         public ReactiveCommand<object> KeyPressedCommand { get; private set; }
+        public ICommand SettingsCommand { get; private set; }
 
         private readonly IDisposable _shareLinkSubscription;
         private readonly IDisposable _textToSpeechSubscription;
@@ -31,7 +35,8 @@ namespace ShareLink.ViewModels.ViewModels
                                  IHttpService httpService, 
                                  ISchedulerProvider schedulerProvider,
                                  ITextToSpeechService textToSpeechService,
-                                 ApplicationSettingsService settingsService)
+                                 ApplicationSettingsService settingsService,
+                                 INavigationService navigationService)
         {
             var clipboardChangedObservable = windowService.IsVisibleObservable.Select(isVisible => 
                                                                                       isVisible ? Observable.FromAsync(clipboardService.GetTextAsync) : 
@@ -92,6 +97,7 @@ namespace ShareLink.ViewModels.ViewModels
                                                                     
                                                               .Subscribe(shareData => ShareLink(dataTransferService, shareData.Title, shareData.Uri));
 
+            SettingsCommand = new DelegateCommand(() => navigationService.Navigate("Settings", null));
         }
 
         public void Dispose()
