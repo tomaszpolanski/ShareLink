@@ -46,6 +46,7 @@
     <Compile Include="Interfaces\IDataTransferService.cs" />
     <Compile Include="Interfaces\IHttpService.cs" />
     <Compile Include="Interfaces\ISchedulerProvider.cs" />
+    <Compile Include="Interfaces\ISettingsService.cs" />
     <Compile Include="Interfaces\ITextToSpeechService.cs" />
     <Compile Include="Interfaces\IWindowService.cs" />
     <Compile Include="PlatformApplicationDataContainer.cs" />

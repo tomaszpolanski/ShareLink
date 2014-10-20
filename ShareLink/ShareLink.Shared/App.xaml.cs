@@ -46,8 +46,10 @@ namespace ShareLink
             _container.RegisterType<ITextToSpeechService, TextToSpeechService>(new ContainerControlledLifetimeManager());
 #if WINDOWS_APP
             _container.RegisterType<IClipboardService, Services.Windows.ClipboardService>(new ContainerControlledLifetimeManager());
+            _container.RegisterInstance<ISettingsService>(new UiServices.Windows.SettingService());
 #elif WINDOWS_PHONE_APP
             _container.RegisterType<IClipboardService, Services.WindowsPhone.ClipboardService>(new ContainerControlledLifetimeManager());
+            _container.RegisterInstance<ISettingsService>(new UiServices.WindowsPhone.SettingService(NavigationService));
 #endif
 
             ViewModelLocationProvider.SetDefaultViewTypeToViewModelTypeResolver(viewType =>

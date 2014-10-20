@@ -36,7 +36,7 @@ namespace ShareLink.ViewModels.ViewModels
                                  ISchedulerProvider schedulerProvider,
                                  ITextToSpeechService textToSpeechService,
                                  ApplicationSettingsService settingsService,
-                                 INavigationService navigationService)
+                                 ISettingsService settingsUiService)
         {
             var clipboardChangedObservable = windowService.IsVisibleObservable.Select(isVisible => 
                                                                                       isVisible ? Observable.FromAsync(clipboardService.GetTextAsync) : 
@@ -97,7 +97,7 @@ namespace ShareLink.ViewModels.ViewModels
                                                                     
                                                               .Subscribe(shareData => ShareLink(dataTransferService, shareData.Title, shareData.Uri));
 
-            SettingsCommand = new DelegateCommand(() => navigationService.Navigate("Settings", null));
+            SettingsCommand = new DelegateCommand(settingsUiService.ShowSettings);
         }
 
         public void Dispose()
