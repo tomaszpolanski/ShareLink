@@ -182,5 +182,16 @@ namespace ShareLink.Tests.ViewModels
 
             A.CallTo(() => _dataTransferService.Share(pageTitle, A<string>.Ignored, A<Uri>.Ignored)).MustHaveHappened(Repeated.Exactly.Once);
         }
+
+        [TestMethod]
+        public void TappingSettingsButtonShowsSettings()
+        {
+            var viewModel = CreateViewModel();
+
+            viewModel.SettingsCommand.Execute(null);
+
+            A.CallTo(() => _uiSettingsService.ShowSettings()).MustHaveHappened(Repeated.Exactly.Once);
+        }
+
     }
 }

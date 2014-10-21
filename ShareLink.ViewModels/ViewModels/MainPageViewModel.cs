@@ -130,7 +130,7 @@ namespace ShareLink.ViewModels.ViewModels
         private static IObservable<object> DefineEnterPressedObservable(IObservable<object> keyPressedObservable )
         {
             return keyPressedObservable.Cast<VirtualKey?>()
-                                       .Where(args => args.Value == VirtualKey.Enter)
+                                       .Where(args => args != null && args.Value == VirtualKey.Enter)
                                        .SelectNull();
         }
 
@@ -168,7 +168,8 @@ namespace ShareLink.ViewModels.ViewModels
 
         private static string AddPrefixIfNeeded(string text)
         {
-            return (text.StartsWith("http://") ? string.Empty : "http://") + text.Trim();
+            const string httpPrefix = "http://";
+            return (text.StartsWith(httpPrefix) ? string.Empty : httpPrefix) + text.Trim();
         }
 
         private static void ShareLink(IDataTransferService transferService, string title, Uri uri)
