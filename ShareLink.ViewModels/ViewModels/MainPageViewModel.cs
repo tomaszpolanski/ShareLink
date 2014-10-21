@@ -50,37 +50,22 @@ namespace ShareLink.ViewModels.ViewModels
             ShareCommand = validLinkObservable.ToReactiveCommand();
             KeyPressedCommand = validLinkObservable.ToReactiveCommand<object>();
 
-            var enterPressedObservable = KeyPressedCommand.Cast<VirtualKey?>()
-                                                          .Where(args => args.Value == VirtualKey.Enter)
-                                                          .SelectNull();
+            var enterPressedObservable = DefineEnterPressedObservable(KeyPressedCommand);
 
-            var shareTrigger = formattedStringObservable.Select(text => ShareCommand.Merge(enterPressedObservable)
-                                                                                                .Select(_ => text))
-                                                                    .Switch()
-                                                                    .Publish()
-                                                                    .RefCount();
-            var urlTitleResolveObservable = DefineDrlTitleResolveObservable(shareTrigger, httpService);
+            var shareTrigger = DefineShareTrigger(formattedStringObservable, ShareCommand, enterPressedObservable);
 
-            IsInProgress = shareTrigger.Select(_ => true)
-                                       .Merge(urlTitleResolveObservable.Select(_ => false))
+            var urlTitleResolveObservable = DefineUrlTitleResolveObservable(shareTrigger, httpService);
+
+            IsInProgress = DefineInProgressObservable(shareTrigger, urlTitleResolveObservable)
                                        .ToReadonlyReactiveProperty();
 
-            ErrorMessage = shareTrigger.Select(_ => string.Empty)
-                                       .Merge(urlTitleResolveObservable.Where(shareData => shareData.Exception != null)
-                                                                       .Select(_ => "Couldn't resolve page title"))    
-                                       .ToReadonlyReactiveProperty(String.Empty);
+            ErrorMessage = DefineErrorMessageObservable(shareTrigger, urlTitleResolveObservable)
+                                       .ToReadonlyReactiveProperty();
 
-            _textToSpeechSubscription = urlTitleResolveObservable.Where(_ => settingsService.IsSpeechEnabled)
-                .Where(shareData => shareData.Exception == null)
-                .SubscribeOnUI()
-                .ObserveOnUI()
-                .Select(shareData => Observable.FromAsync(token => textToSpeechService.PlayTextAsync(shareData.Title, token)))
-                .Switch()
-                
-                .Subscribe();
+            _textToSpeechSubscription = DefineTextToSpeachObservable(urlTitleResolveObservable, settingsService, textToSpeechService)
+                                                    .Subscribe();
 
             _shareLinkSubscription = urlTitleResolveObservable.ObserveOnUI()
-                                                                    
                                                               .Subscribe(shareData => ShareLink(dataTransferService, shareData.Title, shareData.Uri));
 
             SettingsCommand = new DelegateCommand(settingsUiService.ShowSettings);
@@ -108,11 +93,10 @@ namespace ShareLink.ViewModels.ViewModels
 
         private static IObservable<string> DefineClipboardObservable(IObservable<bool> applicationVisibilityObservable, IClipboardService clipboardService)
         {
-            return  applicationVisibilityObservable.Select(isVisible => 
-                                                                                      isVisible ? Observable.FromAsync(clipboardService.GetTextAsync) : 
-                                                                                                  Observable.Empty<string>())
-                                                                    .Switch()
-                                                                    .Where(clipboardText => !string.IsNullOrEmpty(clipboardText));
+            return  applicationVisibilityObservable.Select(isVisible => isVisible ? Observable.FromAsync(clipboardService.GetTextAsync) : 
+                                                                                    Observable.Empty<string>())
+                                                   .Switch()
+                                                   .Where(clipboardText => !string.IsNullOrEmpty(clipboardText));
         }
 
         private static IObservable<bool> DefineSelectAllTextTriggerObservable(IObservable<bool> applicationVisibilityObservable, IScheduler timerScheduler)
@@ -133,16 +117,54 @@ namespace ShareLink.ViewModels.ViewModels
                                           .DistinctUntilChanged();
         }
 
-        private static IObservable<ShareData> DefineDrlTitleResolveObservable(IObservable<string> shareTrigger, IHttpService httpService )
+        private static IObservable<ShareData> DefineUrlTitleResolveObservable(IObservable<string> shareTrigger, IHttpService httpService )
         {
             return shareTrigger.Select(url => Observable.FromAsync(token => httpService.GetPageTitleAsync(new Uri(url), token))
-                                                                                             .Select(title => new ShareData(title, url))
-                                                                                             .Catch<ShareData, HttpRequestException>(exception => Observable.Return(new ShareData(url.ToString(), url, exception))))
-                                                                    .Switch()
-                                                                    .Publish()
-                                                                    .RefCount();
+                                                        .Select(title => new ShareData(title, url))
+                                                        .Catch<ShareData, HttpRequestException>(exception => Observable.Return(new ShareData(url.ToString(), url, exception))))
+                               .Switch()
+                               .Publish()
+                               .RefCount();
         }
 
+        private static IObservable<object> DefineEnterPressedObservable(IObservable<object> keyPressedObservable )
+        {
+            return keyPressedObservable.Cast<VirtualKey?>()
+                                       .Where(args => args.Value == VirtualKey.Enter)
+                                       .SelectNull();
+        }
+
+        private static IObservable<string> DefineShareTrigger(IObservable<string> formattedTextObservable, IObservable<object> shareObservable, IObservable<object> enterPressedObservable)
+        {
+            return formattedTextObservable.Select(text => shareObservable.Merge(enterPressedObservable)
+                                                                         .Select(_ => text))
+                                          .Switch()
+                                          .Publish()
+                                          .RefCount();   
+        }
+
+        private static IObservable<bool> DefineInProgressObservable(IObservable<object> shareStartedObservable, IObservable<ShareData> shareFinishedObservable)
+        {
+            return shareStartedObservable.Select(_ => true)
+                                         .Merge(shareFinishedObservable.Select(_ => false));
+        }
+
+        private static IObservable<string> DefineErrorMessageObservable(IObservable<object> shareStartedObservable, IObservable<ShareData> shareFinishedObservable)
+        {
+            return shareStartedObservable.Select(_ => string.Empty)
+                                         .Merge(shareFinishedObservable.Where(shareData => shareData.Exception != null)
+                                                                       .Select(_ => "Couldn't resolve page title"));
+        }
+
+        private static IObservable<System.Reactive.Unit> DefineTextToSpeachObservable(IObservable<ShareData> shareFinishedObservable, ApplicationSettingsService settingsService, ITextToSpeechService textToSpeechService)
+        {
+            return shareFinishedObservable.Where(_ => settingsService.IsSpeechEnabled)
+                                          .Where(shareData => shareData.Exception == null)
+                                          .SubscribeOnUI()
+                                          .ObserveOnUI()
+                                          .Select(shareData => Observable.FromAsync(token => textToSpeechService.PlayTextAsync(shareData.Title, token)))
+                                          .Switch();
+        }
 
         private static string AddPrefixIfNeeded(string text)
         {
