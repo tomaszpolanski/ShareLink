@@ -1,4 +1,5 @@
-﻿using ShareLink.Services.Interfaces;
+﻿#if WINDOWS_APP
+using ShareLink.Services.Interfaces;
 using ShareLink.Views;
 
 namespace ShareLink.UiServices.Windows
@@ -7,7 +8,10 @@ namespace ShareLink.UiServices.Windows
     {
         public void ShowSettings()
         {
+
             new SettingsPage().Show();
+
         }
     }
 }
+#endif
