@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Diagnostics;
 using System.Globalization;
 using System.Linq;
 using System.Linq.Expressions;
@@ -23,7 +22,7 @@ namespace ShareLink.Services
         }
 
 
-        public IObservable<bool> IsSpeechEnabledObservable { get { return _isSpeechEnabledObservable.StartWith(IsSpeechEnabled).DistinctUntilChanged(); } }
+        public IObservable<bool> IsSpeechEnabledObservable { get { return _isSpeechEnabledObservable.StartWith(IsSpeechEnabled); } }
         private readonly Subject<bool> _isSpeechEnabledObservable = new Subject<bool>();
 
         private bool _isSpeechEnabled;
@@ -40,6 +39,8 @@ namespace ShareLink.Services
             _dataContainer.Delete();
         }
 
+        #region Private members
+
         private void LoadSettings()
         {
             var persistentPropertiesQuery = GetType().GetRuntimeProperties()
@@ -52,7 +53,7 @@ namespace ShareLink.Services
             }
         }
 
-        protected void SetSettingsProperty<T>(ref T storage, T value, Subject<T> handler, [CallerMemberName] String propertyName = null)
+        private void SetSettingsProperty<T>(ref T storage, T value, Subject<T> handler, [CallerMemberName] String propertyName = null)
         {
             if (object.Equals(storage, value))
             {
@@ -66,16 +67,9 @@ namespace ShareLink.Services
             }
             else if (value is DateTime?)
             {
-                DateTime? d = value as DateTime?;
-                if (d == null)
-                {
-                    _dataContainer.Values[propertyName] = null;
-                }
-                else
-                {
-                    Debug.Assert(d.HasValue);
-                    _dataContainer.Values[propertyName] = d.Value.ToString("s", DateTimeFormatInfo.InvariantInfo);
-                }
+                var d = value as DateTime?;
+                _dataContainer.Values[propertyName] = d.Value.ToString("s", DateTimeFormatInfo.InvariantInfo);
+
             }
             else
             {
@@ -120,6 +114,7 @@ namespace ShareLink.Services
                 }
                 property.SetValue(this, value, null);
             }
+        #endregion
         }
 
         [AttributeUsage(AttributeTargets.Property)]
@@ -129,5 +124,7 @@ namespace ShareLink.Services
             {
             }
         }
+
+
     }
 }
