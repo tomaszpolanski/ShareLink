@@ -27,6 +27,7 @@ namespace ShareLink.Tests.ViewModels
         private readonly TestScheduler _testScheduler = new TestScheduler();
         private ITextToSpeechService _textToSpeechService;
         private ApplicationSettingsService _applicationSettingsService;
+        private ISettingsService _uiSettingsService;
 
         [TestInitialize]
         public void Initialize()
@@ -38,6 +39,7 @@ namespace ShareLink.Tests.ViewModels
             _schedulerProvider = A.Fake<ISchedulerProvider>();
             _textToSpeechService = A.Fake<ITextToSpeechService>();
             _applicationSettingsService = new ApplicationSettingsService(new MockApplicationDataContainer());
+            _uiSettingsService = A.Fake<ISettingsService>();
 
             A.CallTo(() => _schedulerProvider.Default).Returns(_testScheduler);
         }
@@ -50,7 +52,8 @@ namespace ShareLink.Tests.ViewModels
         private MainPageViewModel CreateViewModel()
         {
             return new MainPageViewModel(_windowService, _dataTransferService, _clipboardService,
-                _httpService, _schedulerProvider, _textToSpeechService, _applicationSettingsService);
+                _httpService, _schedulerProvider, _textToSpeechService, _applicationSettingsService,
+                _uiSettingsService);
         }
 
         [TestMethod]

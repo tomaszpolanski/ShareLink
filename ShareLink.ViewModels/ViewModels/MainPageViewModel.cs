@@ -1,12 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Net.Http;
+using System.Reactive.Concurrency;
 using System.Reactive.Linq;
 using System.Windows.Input;
 using Windows.System;
 using Microsoft.Practices.Prism.Commands;
 using Microsoft.Practices.Prism.Mvvm;
-using Microsoft.Practices.Prism.Mvvm.Interfaces;
 using Services.Interfaces;
 using ShareLink.Models;
 using ShareLink.Services;
@@ -38,23 +38,14 @@ namespace ShareLink.ViewModels.ViewModels
                                  ApplicationSettingsService settingsService,
                                  ISettingsService settingsUiService)
         {
-            var clipboardChangedObservable = windowService.IsVisibleObservable.Select(isVisible => 
-                                                                                      isVisible ? Observable.FromAsync(clipboardService.GetTextAsync) : 
-                                                                                                Observable.Empty<string>())
-                                                                    .Switch()
-                                                                    .Where(clipboardText => !string.IsNullOrEmpty(clipboardText));
+            Text = DefineClipboardObservable(windowService.IsVisibleObservable, clipboardService).ToReactiveProperty();
 
-            Text = clipboardChangedObservable.ToReactiveProperty();
-
-            SelectAllTextTrigger = windowService.IsVisibleObservable.Where(isVisible => isVisible)
-                                                                    .Delay(TimeSpan.FromMilliseconds(300), schedulerProvider.Default)
+            SelectAllTextTrigger = DefineSelectAllTextTriggerObservable(windowService.IsVisibleObservable, schedulerProvider.Default)
                                                                     .ToReadonlyReactiveProperty(mode: ReactivePropertyMode.None);
 
-            var formattedStringObservable = Text.WhereIsNotNull()
-                                                .Select(AddPrefixIfNeeded);
+            var formattedStringObservable = DefineFormattedStringObservable(Text);
 
-            var validLinkObservable = formattedStringObservable.Select(text => Uri.IsWellFormedUriString(text, UriKind.Absolute))
-                                                               .DistinctUntilChanged();
+            var validLinkObservable = DefineValidUriObservable(formattedStringObservable);
 
             ShareCommand = validLinkObservable.ToReactiveCommand();
             KeyPressedCommand = validLinkObservable.ToReactiveCommand<object>();
@@ -68,16 +59,11 @@ namespace ShareLink.ViewModels.ViewModels
                                                                     .Switch()
                                                                     .Publish()
                                                                     .RefCount();
-            var urlTitleResolveObservable = shareTrigger.Select(url => Observable.FromAsync(token => httpService.GetPageTitleAsync(new Uri(url), token))
-                                                                                             .Select(title => new ShareData(title, url))
-                                                                                             .Catch<ShareData, HttpRequestException>(exception => Observable.Return(new ShareData(url.ToString(), url, exception))))
-                                                                    .Switch()
-                                                                    .Publish()
-                                                                    .RefCount();
+            var urlTitleResolveObservable = DefineDrlTitleResolveObservable(shareTrigger, httpService);
 
             IsInProgress = shareTrigger.Select(_ => true)
-                                                   .Merge(urlTitleResolveObservable.Select(_ => false))
-                                                   .ToReadonlyReactiveProperty();
+                                       .Merge(urlTitleResolveObservable.Select(_ => false))
+                                       .ToReadonlyReactiveProperty();
 
             ErrorMessage = shareTrigger.Select(_ => string.Empty)
                                        .Merge(urlTitleResolveObservable.Where(shareData => shareData.Exception != null)
@@ -112,11 +98,51 @@ namespace ShareLink.ViewModels.ViewModels
             _textToSpeechSubscription.Dispose();
         }
 
+
+
         public override void OnNavigatedFrom(Dictionary<string, object> viewModelState, bool suspending)
         {
             base.OnNavigatedFrom(viewModelState, suspending);
             Dispose();
         }
+
+        private static IObservable<string> DefineClipboardObservable(IObservable<bool> applicationVisibilityObservable, IClipboardService clipboardService)
+        {
+            return  applicationVisibilityObservable.Select(isVisible => 
+                                                                                      isVisible ? Observable.FromAsync(clipboardService.GetTextAsync) : 
+                                                                                                  Observable.Empty<string>())
+                                                                    .Switch()
+                                                                    .Where(clipboardText => !string.IsNullOrEmpty(clipboardText));
+        }
+
+        private static IObservable<bool> DefineSelectAllTextTriggerObservable(IObservable<bool> applicationVisibilityObservable, IScheduler timerScheduler)
+        {
+            return applicationVisibilityObservable.Where(isVisible => isVisible)
+                                                  .Delay(TimeSpan.FromMilliseconds(300), timerScheduler);
+        }
+
+        private static IObservable<string> DefineFormattedStringObservable(IObservable<string> textObservable )
+        {
+            return textObservable.WhereIsNotNull()
+                                 .Select(AddPrefixIfNeeded);
+        }
+
+        private static IObservable<bool> DefineValidUriObservable(IObservable<string> formattedTextObservable)
+        {
+            return formattedTextObservable.Select(text => Uri.IsWellFormedUriString(text, UriKind.Absolute))
+                                          .DistinctUntilChanged();
+        }
+
+        private static IObservable<ShareData> DefineDrlTitleResolveObservable(IObservable<string> shareTrigger, IHttpService httpService )
+        {
+            return shareTrigger.Select(url => Observable.FromAsync(token => httpService.GetPageTitleAsync(new Uri(url), token))
+                                                                                             .Select(title => new ShareData(title, url))
+                                                                                             .Catch<ShareData, HttpRequestException>(exception => Observable.Return(new ShareData(url.ToString(), url, exception))))
+                                                                    .Switch()
+                                                                    .Publish()
+                                                                    .RefCount();
+        }
+
 
         private static string AddPrefixIfNeeded(string text)
         {
