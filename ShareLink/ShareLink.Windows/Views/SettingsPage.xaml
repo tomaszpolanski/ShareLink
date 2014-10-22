@@ -5,6 +5,7 @@
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:mvvm="using:Microsoft.Practices.Prism.Mvvm"
+    xmlns:controls="using:ShareLink.Controls"
     mc:Ignorable="d"
     Title="Settings"
     mvvm:ViewModelLocator.AutoWireViewModel="true"
@@ -12,12 +13,7 @@
 
     <StackPanel VerticalAlignment="Stretch" HorizontalAlignment="Stretch" >
 
-        <StackPanel Style="{StaticResource SettingsFlyoutSectionStyle}">
-
-            <ToggleSwitch Header="Enable speech"
-                          IsOn="{Binding IsSpeechEnabled.Value, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
-
-        </StackPanel>
+        <controls:SettingsControl/>
 
     </StackPanel>
 </SettingsFlyout>

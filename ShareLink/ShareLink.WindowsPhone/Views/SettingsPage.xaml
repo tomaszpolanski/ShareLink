@@ -6,6 +6,7 @@
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:storeApps="using:Microsoft.Practices.Prism.StoreApps"
     xmlns:mvvm="using:Microsoft.Practices.Prism.Mvvm"
+    xmlns:controls="using:ShareLink.Controls"
     mc:Ignorable="d"
     mvvm:ViewModelLocator.AutoWireViewModel="true"
     Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
@@ -29,9 +30,8 @@
                        CharacterSpacing="{ThemeResource PivotHeaderItemCharacterSpacing}"/>
         </StackPanel>
 
-        <StackPanel Grid.Row="1" Margin="19,9.5,19,0">
-            <ToggleSwitch Header="Enable speech"
-                          IsOn="{Binding IsSpeechEnabled.Value, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
-        </StackPanel>
+        <controls:SettingsControl Margin="20,10"
+                                  Grid.Row="1"/>
+
     </Grid>
 </storeApps:VisualStateAwarePage>

@@ -18,6 +18,9 @@
     <Compile Include="$(MSBuildThisFileDirectory)Behaviors\Behavior.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Behaviors\SelectAllBehavior.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Commands\KeyDownCommand.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Controls\SettingsControl.xaml.cs">
+      <DependentUpon>SettingsControl.xaml</DependentUpon>
+    </Compile>
     <Compile Include="$(MSBuildThisFileDirectory)Converters\VisibilityConverters.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)DesignViewModels\MainPageDesignViewModel.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)UiServices\WindowsPhone\SettingService.cs" />
@@ -27,6 +30,10 @@
     </Compile>
   </ItemGroup>
   <ItemGroup>
+    <Page Include="$(MSBuildThisFileDirectory)Controls\SettingsControl.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="$(MSBuildThisFileDirectory)Views\MainPage.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
