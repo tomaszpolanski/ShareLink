@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace ShareLink.Services
 {
-    internal class HttpClient : IHttpClient
+    public class HttpClient : IHttpClient
     {
         private readonly System.Net.Http.HttpClient _client;
 

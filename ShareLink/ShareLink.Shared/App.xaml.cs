@@ -38,9 +38,10 @@ namespace ShareLink
             _container.RegisterInstance(NavigationService);
             _container.RegisterInstance(SessionStateService);
             _container.RegisterInstance(new ApplicationSettingsService(new PlatformApplicationDataContainer()));
+
+            _container.RegisterInstance<IHttpService>(new HttpService(new HttpClient()));
             _container.RegisterType<IWindowService, WindowService>(new ContainerControlledLifetimeManager());
             _container.RegisterType<IDataTransferService, DataTransferService>(new ContainerControlledLifetimeManager());
-            _container.RegisterType<IHttpService, HttpService>(new ContainerControlledLifetimeManager());
             _container.RegisterType<ISchedulerProvider, SchedulerProvider>(new ContainerControlledLifetimeManager());
             _container.RegisterType<ITextToSpeechService, TextToSpeechService>(new ContainerControlledLifetimeManager());
 #if WINDOWS_APP

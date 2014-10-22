@@ -26,7 +26,7 @@ namespace Services
             {
                 HtmlPage page = new HtmlPage();
                 page.Title = GetPageTitle(stringResponse);
-                page.Icon = GetPageIcon(stringResponse);
+                page.Icon = GetPageIcon(stringResponse, uri);
                 return page;
             }
             return null;
@@ -37,13 +37,13 @@ namespace Services
             return Regex.Match(pageContent, @"\<title\b[^>]*\>\s*(?<Title>[\s\S]*?)\</title\>", RegexOptions.IgnoreCase).Groups["Title"].Value;
         }
 
-        private static Uri GetPageIcon(string pageContent)
+        private static Uri GetPageIcon(string pageContent, Uri pageUri)
         {
             foreach (Match match in Regex.Matches(pageContent, "<link .*? href=\"(.*?.png)\""))
             {
                 String url = match.Groups[1].Value;
 
-                return new Uri(url);
+                return new Uri(pageUri + url);
             }
             return null;
         }
