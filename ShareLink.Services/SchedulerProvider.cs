@@ -1,5 +1,6 @@
-﻿using System.Reactive.Concurrency;
+﻿
 using Services.Interfaces;
+using System.Reactive.Concurrency;
 
 namespace Services
 {
