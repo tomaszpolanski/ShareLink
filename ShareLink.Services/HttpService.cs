@@ -6,18 +6,28 @@ using Services.Interfaces;
 using ShareLink.Models;
 using System.Diagnostics;
 using ShareLink.Services;
+using ShareLink.Services.Interfaces;
 
 namespace Services
 {
     public class HttpService : IHttpService
     {
-        public async Task<string> GetPageTitleAsync(Uri uri, CancellationToken token)
+        private readonly IHttpClient _client;
+
+        public HttpService(IHttpClient client)
         {
-            var client = new HttpClient();
-            var stringResponse = await client.GetStringAsync(uri, token);
-            if ( string.IsNullOrEmpty( stringResponse))
+            _client = client;
+        }
+
+        public async Task<HtmlPage> GetHtmlPageAsync(Uri uri, CancellationToken token)
+        {
+            var stringResponse = await _client.GetStringAsync(uri, token);
+            if ( !string.IsNullOrEmpty( stringResponse))
             {
-                return GetPageTitle(stringResponse);
+                HtmlPage page = new HtmlPage();
+                page.Title = GetPageTitle(stringResponse);
+                page.Icon = GetPageIcon(stringResponse);
+                return page;
             }
             return null;
         }
@@ -27,23 +37,15 @@ namespace Services
             return Regex.Match(pageContent, @"\<title\b[^>]*\>\s*(?<Title>[\s\S]*?)\</title\>", RegexOptions.IgnoreCase).Groups["Title"].Value;
         }
 
-        public HttpService()
-        {
-            String  htnlText = "<meta name=\"description\" content=\"This is page's content.\" /><meta name=\"robots\" content=\"index, follow\" /><meta name=\"verify-v1\" content=\"x42ckCSDiernwyVbSdBDlxN0x9AgHmZz312zpWWtMf4=\" /><link rel=\"shortcut icon\" href=\"http://3dbin.com/favicon.png\" type=\"image/x-icon\" /><link rel=\"shortcut icon\" href=\"http://anotherURL/someicofile.png\" type=\"image/x-icon\">just to make sure it works with different link ending</link><link rel=\"stylesheet\" type=\"text/css\" href=\"http://3dbin.com/css/1261391049/style.min.css\" />";
-            GetPageIcon(htnlText);
-        }
-
-        public static string GetPageIcon(string pageContent)
+        private static Uri GetPageIcon(string pageContent)
         {
             foreach (Match match in Regex.Matches(pageContent, "<link .*? href=\"(.*?.png)\""))
             {
                 String url = match.Groups[1].Value;
 
-                Debug.WriteLine(url); 
+                return new Uri(url);
             }
             return null;
         }
-
-
     }
 }

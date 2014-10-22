@@ -10,6 +10,7 @@ using ShareLink.Services;
 using ShareLink.Services.Interfaces;
 using ShareLink.Tests.Mocks;
 using ShareLink.ViewModels.ViewModels;
+using ShareLink.Models;
 
 
 
@@ -174,7 +175,7 @@ namespace ShareLink.Tests.ViewModels
         public void ResolveTitleOfPage()
         {
             const string pageTitle = "SomeTitle";
-            A.CallTo(() => _httpService.GetPageTitleAsync(A<Uri>.Ignored, A<CancellationToken>.Ignored)).Returns(Task.FromResult(pageTitle));
+            A.CallTo(() => _httpService.GetHtmlPageAsync(A<Uri>.Ignored, A<CancellationToken>.Ignored)).Returns(Task.FromResult(new HtmlPage { Title = pageTitle }));
             var viewModel = CreateViewModel();
             viewModel.Text.Value = "test";
 

@@ -9,6 +9,6 @@ namespace ShareLink.Models
     public class HtmlPage
     {
         public string Title;
-        public string Icon;
+        public Uri Icon;
     }
 }
