@@ -69,6 +69,9 @@ namespace ShareLink.ViewModels.ViewModels
                                                               .Subscribe(shareData => ShareLink(dataTransferService, shareData.Title, shareData.Uri));
 
             SettingsCommand = new DelegateCommand(settingsUiService.ShowSettings);
+
+            
+
         }
 
         public void Dispose()

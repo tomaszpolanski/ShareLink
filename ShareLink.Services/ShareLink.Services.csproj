@@ -77,6 +77,10 @@
       <Project>{5c6b624f-191d-40a7-ae78-7fb74f72400c}</Project>
       <Name>Utilities.Reactive</Name>
     </ProjectReference>
+    <ProjectReference Include="..\ShareLink.Models\ShareLink.Models.csproj">
+      <Project>{cf3be0ce-b6bc-48d1-b892-4f9175a32a61}</Project>
+      <Name>ShareLink.Models</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath32)\Microsoft\Portable\$(TargetFrameworkVersion)\Microsoft.Portable.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
