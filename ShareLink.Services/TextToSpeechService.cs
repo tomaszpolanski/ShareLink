@@ -9,7 +9,7 @@ using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using ShareLink.Services.Interfaces;
 
-namespace ShareLink.Services.Universal
+namespace ShareLink.Services
 {
     public class TextToSpeechService : ITextToSpeechService
     {
