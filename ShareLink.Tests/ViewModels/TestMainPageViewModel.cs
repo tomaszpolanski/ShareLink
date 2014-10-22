@@ -168,7 +168,7 @@ namespace ShareLink.Tests.ViewModels
 
             viewModel.ShareCommand.Execute();
 
-            A.CallTo(() => _dataTransferService.Share(A<string>.Ignored, A<string>.Ignored, A<Uri>.Ignored)).MustHaveHappened(Repeated.Exactly.Once);
+            A.CallTo(() => _dataTransferService.Share(A<string>.Ignored, A<string>.Ignored, A<Uri>.Ignored, A<Uri>.Ignored)).MustHaveHappened(Repeated.Exactly.Once);
         }
 
         [TestMethod]
@@ -181,7 +181,7 @@ namespace ShareLink.Tests.ViewModels
 
             viewModel.ShareCommand.Execute();
 
-            A.CallTo(() => _dataTransferService.Share(pageTitle, A<string>.Ignored, A<Uri>.Ignored)).MustHaveHappened(Repeated.Exactly.Once);
+            A.CallTo(() => _dataTransferService.Share(pageTitle, A<string>.Ignored, A<Uri>.Ignored, A<Uri>.Ignored)).MustHaveHappened(Repeated.Exactly.Once);
         }
 
         [TestMethod]
