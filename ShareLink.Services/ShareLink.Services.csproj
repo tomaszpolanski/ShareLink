@@ -41,20 +41,24 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="ApplicationSettingsService.cs" />
+    <Compile Include="CacheService.cs" />
     <Compile Include="DataTransferService.cs" />
     <Compile Include="HttpClient.cs" />
     <Compile Include="HttpService.cs" />
     <Compile Include="Interfaces\IApplicationDataContainer.cs" />
+    <Compile Include="Interfaces\ICacheService.cs" />
     <Compile Include="Interfaces\IClipboardService.cs" />
     <Compile Include="Interfaces\IDataTransferService.cs" />
     <Compile Include="Interfaces\IHttpClient.cs" />
     <Compile Include="Interfaces\IHttpService.cs" />
     <Compile Include="Interfaces\ISchedulerProvider.cs" />
     <Compile Include="Interfaces\ISettingsService.cs" />
+    <Compile Include="Interfaces\IShareDataRepository.cs" />
     <Compile Include="Interfaces\ITextToSpeechService.cs" />
     <Compile Include="Interfaces\IWindowService.cs" />
     <Compile Include="PlatformApplicationDataContainer.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="RoamingCacheService.cs" />
     <Compile Include="SchedulerProvider.cs" />
     <Compile Include="TextToSpeechService.cs" />
     <Compile Include="WindowService.cs" />
