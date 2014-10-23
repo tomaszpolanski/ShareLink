@@ -168,20 +168,20 @@ namespace ShareLink.Tests.ViewModels
 
             viewModel.ShareCommand.Execute();
 
-            A.CallTo(() => _dataTransferService.Share(A<string>.Ignored, A<string>.Ignored, A<Uri>.Ignored, A<Uri>.Ignored)).MustHaveHappened(Repeated.Exactly.Once);
+            A.CallTo(() => _dataTransferService.Share(A<string>.Ignored, A<string>.Ignored, A<Uri>.Ignored)).MustHaveHappened(Repeated.Exactly.Once);
         }
 
         [TestMethod]
         public void ResolveTitleOfPage()
         {
             const string pageTitle = "SomeTitle";
-            A.CallTo(() => _httpService.GetHtmlPageAsync(A<Uri>.Ignored, A<CancellationToken>.Ignored)).Returns(Task.FromResult(new HtmlPage { Title = pageTitle }));
+            A.CallTo(() => _httpService.GetPageTitleAsync(A<Uri>.Ignored, A<CancellationToken>.Ignored)).Returns(Task.FromResult( pageTitle ));
             var viewModel = CreateViewModel();
             viewModel.Text.Value = "test";
 
             viewModel.ShareCommand.Execute();
 
-            A.CallTo(() => _dataTransferService.Share(pageTitle, A<string>.Ignored, A<Uri>.Ignored, A<Uri>.Ignored)).MustHaveHappened(Repeated.Exactly.Once);
+            A.CallTo(() => _dataTransferService.Share(pageTitle, A<string>.Ignored, A<Uri>.Ignored)).MustHaveHappened(Repeated.Exactly.Once);
         }
 
         [TestMethod]

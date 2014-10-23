@@ -1,14 +1,8 @@
 ﻿using FakeItEasy;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
-using Services;
-using ShareLink.Models;
 using ShareLink.Services;
 using ShareLink.Services.Interfaces;
-using ShareLink.Tests.Mocks;
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 
@@ -35,19 +29,9 @@ namespace ShareLink.Tests.Services
         {
             A.CallTo(() => _httpClient.GetStringAsync(A<Uri>.Ignored, A<CancellationToken>.Ignored)).Returns(Task.FromResult(Response));
 
-            HtmlPage htmlPage = await _httpService.GetHtmlPageAsync(new Uri("http://test.test"), CancellationToken.None);
+            var title = await _httpService.GetPageTitleAsync(new Uri("http://test.test"), CancellationToken.None);
 
-            Assert.AreEqual("This is the title", htmlPage.Title);
-        }
-
-        [TestMethod]
-        public async Task TestGettingIcon()
-        {
-            A.CallTo(() => _httpClient.GetStringAsync(A<Uri>.Ignored, A<CancellationToken>.Ignored)).Returns(Task.FromResult(Response));
-
-            HtmlPage htmlPage = await _httpService.GetHtmlPageAsync(new Uri("http://3dbin.com/"), CancellationToken.None);
-
-            Assert.AreEqual("http://3dbin.com/favicon.png", htmlPage.Icon.ToString());
+            Assert.AreEqual("This is the title", title);
         }
     }
 }

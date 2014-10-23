@@ -66,7 +66,7 @@ namespace ShareLink.ViewModels.ViewModels
                                                     .Subscribe();
 
             _shareLinkSubscription = urlTitleResolveObservable.ObserveOnUI()
-                                                              .Subscribe(shareData => ShareLink(dataTransferService, shareData.Title, shareData.Uri, shareData.Icon));
+                                                              .Subscribe(shareData => ShareLink(dataTransferService, shareData.Title, shareData.Uri));
 
             SettingsCommand = new DelegateCommand(settingsUiService.ShowSettings);
 
@@ -122,8 +122,8 @@ namespace ShareLink.ViewModels.ViewModels
 
         private static IObservable<ShareData> DefineUrlTitleResolveObservable(IObservable<string> shareTrigger, IHttpService httpService )
         {
-            return shareTrigger.Select(url => Observable.FromAsync(token => httpService.GetHtmlPageAsync(new Uri(url), token))
-                                                        .Select(htmlPage => new ShareData(htmlPage.Title, url, htmlPage.Icon))
+            return shareTrigger.Select(url => Observable.FromAsync(token => httpService.GetPageTitleAsync(new Uri(url), token))
+                                                        .Select(title => new ShareData(title, url))
                                                         .Catch<ShareData, HttpRequestException>(exception => Observable.Return(new ShareData(url.ToString(), url, exception))))
                                .Switch()
                                .Publish()
@@ -175,9 +175,9 @@ namespace ShareLink.ViewModels.ViewModels
             return (text.StartsWith(httpPrefix) ? string.Empty : httpPrefix) + text.Trim();
         }
 
-        private static void ShareLink(IDataTransferService transferService, string title, Uri uri, Uri icon)
+        private static void ShareLink(IDataTransferService transferService, string title, Uri uri)
         {
-            transferService.Share(title, uri.ToString(), uri, icon);
+            transferService.Share(title, uri.ToString(), uri);
         }
     }
 }

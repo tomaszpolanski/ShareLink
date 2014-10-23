@@ -1,10 +1,8 @@
 ﻿using System;
-using System.Diagnostics;
 using System.Reactive.Linq;
 using Windows.ApplicationModel.DataTransfer;
 using Windows.Foundation;
 using Services.Interfaces;
-using Windows.Storage.Streams;
 
 namespace ShareLink.Services
 {
@@ -33,13 +31,11 @@ namespace ShareLink.Services
             _dataTransferSubscription.Dispose();
         }
 
-        public void Share(string title, string description, Uri webLink, Uri icon)
+        public void Share(string title, string description, Uri webLink)
         {
             _title = title;
             _description = description;
             _webLink = webLink;
-            _icon = icon;
-            Debug.WriteLine("Sharing: " + title);
             DataTransferManager.ShowShareUI();
         }
 
@@ -51,10 +47,6 @@ namespace ShareLink.Services
                 data.Properties.Title = _title;
                 data.Properties.Description = _description;
                 data.SetWebLink(_webLink);
-                if (_icon != null)
-                {
-                    data.SetBitmap(RandomAccessStreamReference.CreateFromUri(_icon));
-                }
             }
         }
 

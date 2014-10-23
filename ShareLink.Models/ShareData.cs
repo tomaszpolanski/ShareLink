@@ -6,18 +6,16 @@ namespace ShareLink.Models
     {
         public readonly string Title;
         public readonly Uri Uri;
-        public readonly Uri Icon;
         public readonly Exception Exception;
 
-        public ShareData(string title, string url, Uri icon)
+        public ShareData(string title, string url)
         {
             Title = title;
             Uri = new Uri(url);
-            Icon = icon;
         }
 
         public ShareData(string title, string url, Exception exception) :
-            this(title, url, new Uri(url))
+            this(title, url)
         {
             Exception = exception;
         }

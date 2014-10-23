@@ -16,6 +16,8 @@
   <Applications>
     <Application Id="App" Executable="$targetnametoken$.exe" EntryPoint="ShareLink.Windows.App">
       <m2:VisualElements DisplayName="ShareLink.Windows" Square150x150Logo="Assets\Logo.png" Square30x30Logo="Assets\SmallLogo.png" Description="ShareLink.Windows" ForegroundText="light" BackgroundColor="#FFFFFF">
+        <m2:DefaultTile Square70x70Logo="Assets\Square70x70Logo.png">
+        </m2:DefaultTile>
         <m2:SplashScreen Image="Assets\SplashScreen.png" BackgroundColor="#FFFFFF" />
       </m2:VisualElements>
     </Application>
