@@ -1,12 +1,12 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using ShareLink.Models;
 
 namespace ShareLink.Services.Interfaces
 {
-    interface IShareDataRepository
+    public interface IShareDataRepository
     {
+        IObservable<ShareData> ShareDataObservable { get; }
+
+        void Add(ShareData shareData);
     }
 }

@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Globalization;
 using System.Threading.Tasks;
 using Windows.ApplicationModel.Activation;
@@ -8,6 +9,7 @@ using Microsoft.Practices.Prism.Mvvm;
 using Microsoft.Practices.Unity;
 using Services;
 using Services.Interfaces;
+using ShareLink.Models;
 using ShareLink.Services;
 using ShareLink.Services.Interfaces;
 using ShareLink.Views;
@@ -38,12 +40,15 @@ namespace ShareLink
             _container.RegisterInstance(NavigationService);
             _container.RegisterInstance(SessionStateService);
             _container.RegisterInstance(new ApplicationSettingsService(new PlatformApplicationDataContainer()));
+            _container.RegisterInstance(new ApplicationSettingsService(new PlatformApplicationDataContainer()));
 
             _container.RegisterInstance<IHttpService>(new HttpService(new HttpClient()));
             _container.RegisterType<IWindowService, WindowService>(new ContainerControlledLifetimeManager());
             _container.RegisterType<IDataTransferService, DataTransferService>(new ContainerControlledLifetimeManager());
             _container.RegisterType<ISchedulerProvider, SchedulerProvider>(new ContainerControlledLifetimeManager());
             _container.RegisterType<ITextToSpeechService, TextToSpeechService>(new ContainerControlledLifetimeManager());
+            _container.RegisterType<ICacheService, RoamingCacheService>(new ContainerControlledLifetimeManager());
+            _container.RegisterType<IShareDataRepository, ShareDataRepository>(new ContainerControlledLifetimeManager());
 #if WINDOWS_APP
             _container.RegisterType<IClipboardService, Services.Windows.ClipboardService>(new ContainerControlledLifetimeManager());
             _container.RegisterInstance<ISettingsService>(new UiServices.Windows.SettingService());
@@ -68,6 +73,13 @@ namespace ShareLink
         protected override object Resolve(Type type)
         {
             return _container.Resolve(type);
+        }
+
+        protected override void OnRegisterKnownTypesForSerialization()
+        {
+            base.OnRegisterKnownTypesForSerialization();
+
+            SessionStateService.RegisterKnownType(typeof(Collection<ShareData>));
         }
 
 #if WINDOWS_APP

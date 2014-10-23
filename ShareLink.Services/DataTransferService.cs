@@ -3,11 +3,14 @@ using System.Reactive.Linq;
 using Windows.ApplicationModel.DataTransfer;
 using Windows.Foundation;
 using Services.Interfaces;
+using ShareLink.Models;
+using ShareLink.Services.Interfaces;
 
 namespace ShareLink.Services
 {
     public class DataTransferService : IDataTransferService, IDisposable
     {
+        private readonly IShareDataRepository _shareDataRepository;
         private readonly IDisposable _dataTransferSubscription;
 
         private string _title;
@@ -15,8 +18,9 @@ namespace ShareLink.Services
         private Uri _webLink;
         private Uri _icon;
 
-        public DataTransferService()
+        public DataTransferService(IShareDataRepository shareDataRepository)
         {
+            _shareDataRepository = shareDataRepository;
             var dataTransferManager = DataTransferManager.GetForCurrentView();
             _dataTransferSubscription = Observable.FromEventPattern<TypedEventHandler<DataTransferManager, DataRequestedEventArgs>, DataTransferManager, DataRequestedEventArgs>(
                                                        h => dataTransferManager.DataRequested += h,
@@ -47,6 +51,7 @@ namespace ShareLink.Services
                 data.Properties.Title = _title;
                 data.Properties.Description = _description;
                 data.SetWebLink(_webLink);
+                _shareDataRepository.Add(new ShareData(_title, _webLink.ToString()) );
             }
         }
 

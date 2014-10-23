@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Net.Http;
 using System.Reactive.Concurrency;
 using System.Reactive.Linq;
@@ -29,6 +30,8 @@ namespace ShareLink.ViewModels.ViewModels
         private readonly IDisposable _shareLinkSubscription;
         private readonly IDisposable _textToSpeechSubscription;
 
+        private IDisposable _test;
+
         public MainPageViewModel(IWindowService windowService, 
                                  IDataTransferService dataTransferService, 
                                  IClipboardService clipboardService, 
@@ -36,7 +39,8 @@ namespace ShareLink.ViewModels.ViewModels
                                  ISchedulerProvider schedulerProvider,
                                  ITextToSpeechService textToSpeechService,
                                  ApplicationSettingsService settingsService,
-                                 ISettingsService settingsUiService)
+                                 ISettingsService settingsUiService,
+                                 IShareDataRepository shareDataRepository)
         {
             Text = DefineClipboardObservable(windowService.IsVisibleObservable, clipboardService).ToReactiveProperty();
 
@@ -70,7 +74,7 @@ namespace ShareLink.ViewModels.ViewModels
 
             SettingsCommand = new DelegateCommand(settingsUiService.ShowSettings);
 
-            
+            _test = shareDataRepository.ShareDataObservable.Subscribe(shareData => Debug.WriteLine(shareData));
 
         }
 

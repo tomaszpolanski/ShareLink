@@ -166,9 +166,9 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\..\ShareLink.Services.Universal\ShareLink.Services.Universal.csproj">
-      <Project>{9f1c41b6-c9e0-4200-8b6e-6144dc360a5e}</Project>
-      <Name>ShareLink.Services.Universal</Name>
+    <ProjectReference Include="..\..\ShareLink.Models\ShareLink.Models.csproj">
+      <Project>{CF3BE0CE-B6BC-48D1-B892-4F9175A32A61}</Project>
+      <Name>ShareLink.Models</Name>
     </ProjectReference>
     <ProjectReference Include="..\..\ShareLink.Services.Windows\ShareLink.Services.Windows.csproj">
       <Project>{46e0db51-79f2-497e-95ff-a3ec5c4a4647}</Project>
