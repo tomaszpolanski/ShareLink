@@ -10,8 +10,6 @@ using ShareLink.Services;
 using ShareLink.Services.Interfaces;
 using ShareLink.Tests.Mocks;
 using ShareLink.ViewModels.ViewModels;
-using ShareLink.Models;
-
 
 
 namespace ShareLink.Tests.ViewModels
@@ -192,6 +190,21 @@ namespace ShareLink.Tests.ViewModels
             viewModel.SettingsCommand.Execute(null);
 
             A.CallTo(() => _uiSettingsService.ShowSettings()).MustHaveHappened(Repeated.Exactly.Once);
+        }
+
+
+        [TestMethod]
+        public void StartingSharingStartsProgress()
+        {
+            var viewModel = CreateViewModel();
+            viewModel.Text.Value = "test";
+            A.CallTo(() => _httpService.GetPageTitleAsync(A<Uri>.Ignored, A<CancellationToken>.Ignored)).Returns(Task.FromResult("pageTitle"));
+            bool progressChangedToTrue = false;
+            viewModel.IsInProgress.Subscribe(isInProgress => progressChangedToTrue |= isInProgress);
+
+            viewModel.ShareCommand.Execute();
+
+            Assert.AreEqual(true, progressChangedToTrue);
         }
 
     }
