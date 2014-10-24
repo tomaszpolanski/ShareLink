@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.IO;
 using System.Linq;
 using System.Reactive.Linq;
@@ -22,6 +23,8 @@ namespace ShareLink.Services
         private readonly Subject<ShareData> _addedDataSubject =  new Subject<ShareData>();
         private readonly IConnectableObservable<ShareData> _shareDataObservable;
         private readonly IDisposable _shareDataSubscription;
+        private readonly Collection<ShareData> _sharedData = new Collection<ShareData>();
+        private readonly IDisposable _updatedSubscription;
 
         public IObservable<ShareData> ShareDataObservable { get { return _shareDataObservable; }}
 
@@ -30,11 +33,17 @@ namespace ShareLink.Services
             _cacheService = cacheService;
             _shareDataObservable = DefineShareDataObservable(cacheService).Concat(_addedDataSubject).Replay();
             _shareDataSubscription = _shareDataObservable.Connect();
+            _updatedSubscription = ShareDataObservable.Subscribe(AddShareData);
         }
 
         public void Dispose()
         {
             _shareDataSubscription.Dispose();
+        }
+
+        private void AddShareData(ShareData data)
+        {
+            _sharedData.Add(data);
         }
 
         private static IObservable<ShareData> DefineShareDataObservable(ICacheService service)
@@ -68,7 +77,7 @@ namespace ShareLink.Services
         public void Add(ShareData shareData)
         {
             _addedDataSubject.OnNext(shareData);
-            //_cacheService.SaveDataAsync()
+            _cacheService.SaveDataAsync(CacheFileName, _sharedData, CancellationToken.None);
         }
     }
 }
