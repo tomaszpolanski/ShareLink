@@ -44,4 +44,13 @@
             </GridView.ItemTemplate>
         </GridView>
     </Grid>
+    <Page.BottomAppBar>
+        <CommandBar>
+            <CommandBar.PrimaryCommands>
+                <AppBarButton Label="Reshare"
+                             Icon="Send"
+                             Command="{Binding ReshareCommand}"/>
+            </CommandBar.PrimaryCommands>
+        </CommandBar>
+    </Page.BottomAppBar>
 </storeApps:VisualStateAwarePage>
