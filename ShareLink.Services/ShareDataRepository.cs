@@ -22,8 +22,8 @@ namespace ShareLink.Services
         private readonly ICacheService _cacheService;
         private readonly Subject<ShareData> _addedDataSubject =  new Subject<ShareData>();
         private readonly IConnectableObservable<ShareData> _shareDataObservable;
-        private readonly IDisposable _shareDataSubscription;
         private readonly Collection<ShareData> _sharedData = new Collection<ShareData>();
+        private readonly IDisposable _shareDataSubscription;
         private readonly IDisposable _updatedSubscription;
 
         public IObservable<ShareData> ShareDataObservable { get { return _shareDataObservable; }}
@@ -31,7 +31,9 @@ namespace ShareLink.Services
         public ShareDataRepository(ICacheService cacheService)
         {
             _cacheService = cacheService;
-            _shareDataObservable = DefineShareDataObservable(cacheService).Concat(_addedDataSubject).Replay();
+            _shareDataObservable = DefineShareDataObservable(cacheService)
+                .Concat(_addedDataSubject)
+                .Replay();
             _shareDataSubscription = _shareDataObservable.Connect();
             _updatedSubscription = ShareDataObservable.Subscribe(AddShareData);
         }
@@ -39,6 +41,7 @@ namespace ShareLink.Services
         public void Dispose()
         {
             _shareDataSubscription.Dispose();
+            _updatedSubscription.Dispose();
         }
 
         private void AddShareData(ShareData data)
@@ -49,17 +52,15 @@ namespace ShareLink.Services
         private static IObservable<ShareData> DefineShareDataObservable(ICacheService service)
         {
             return Observable.FromAsync(_ => GetShareDataAsync(service, CancellationToken.None))
-                .WhereIsNotNull()
-                .Select(shareDataList => shareDataList.ToObservable())
-                .Switch()
-                .Publish()
-                .RefCount();
+                             .WhereIsNotNull()
+                             .Select(shareDataList => shareDataList.ToObservable())
+                             .Switch()
+                             .Publish()
+                             .RefCount();
         }
 
         private static async Task<ICollection<ShareData>> GetShareDataAsync(ICacheService service, CancellationToken token)
         {
-
-
             try
             {
                 // Retrieve the items from the cache

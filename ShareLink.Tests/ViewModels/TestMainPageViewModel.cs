@@ -3,6 +3,7 @@ using System.Reactive.Subjects;
 using System.Threading;
 using System.Threading.Tasks;
 using FakeItEasy;
+using Microsoft.Practices.Prism.Mvvm.Interfaces;
 using Microsoft.Reactive.Testing;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Services.Interfaces;
@@ -28,6 +29,7 @@ namespace ShareLink.Tests.ViewModels
         private ApplicationSettingsService _applicationSettingsService;
         private ISettingsService _uiSettingsService;
         private IShareDataRepository _shareDataRepository;
+        private INavigationService _navigationService;
 
         [TestInitialize]
         public void Initialize()
@@ -41,6 +43,7 @@ namespace ShareLink.Tests.ViewModels
             _applicationSettingsService = new ApplicationSettingsService(new MockApplicationDataContainer());
             _uiSettingsService = A.Fake<ISettingsService>();
             _shareDataRepository = A.Fake<IShareDataRepository>();
+            _navigationService = A.Fake<INavigationService>(); 
 
             A.CallTo(() => _schedulerProvider.Default).Returns(_testScheduler);
         }
@@ -54,7 +57,7 @@ namespace ShareLink.Tests.ViewModels
         {
             return new MainPageViewModel(_windowService, _dataTransferService, _clipboardService,
                 _httpService, _schedulerProvider, _textToSpeechService, _applicationSettingsService,
-                _uiSettingsService, _shareDataRepository);
+                _uiSettingsService, _shareDataRepository, _navigationService);
         }
 
         [TestMethod]
@@ -116,7 +119,7 @@ namespace ShareLink.Tests.ViewModels
             viewModel.SelectAllTextTrigger.Subscribe(_ => selectAllWasTriggered = true);
 
             visibilitySubject.OnNext(true);
-            _testScheduler.AdvanceBy(TimeSpan.FromMilliseconds(3000).Ticks);
+            _testScheduler.AdvanceBy(TimeSpan.FromMilliseconds(300).Ticks);
 
             Assert.IsTrue(selectAllWasTriggered);
         }

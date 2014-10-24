@@ -3,6 +3,7 @@ using System.Threading;
 using System.Threading.Tasks;
 using Windows.ApplicationModel.DataTransfer;
 using Services.Interfaces;
+using ShareLink.Services.Interfaces;
 
 namespace ShareLink.Services.Windows
 {

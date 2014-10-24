@@ -8,6 +8,7 @@ using System.Windows.Input;
 using Windows.System;
 using Microsoft.Practices.Prism.Commands;
 using Microsoft.Practices.Prism.Mvvm;
+using Microsoft.Practices.Prism.Mvvm.Interfaces;
 using Services.Interfaces;
 using ShareLink.Models;
 using ShareLink.Services;
@@ -27,6 +28,8 @@ namespace ShareLink.ViewModels.ViewModels
         public ReactiveCommand<object> KeyPressedCommand { get; private set; }
         public ICommand SettingsCommand { get; private set; }
 
+        public ICommand HistoryCommand { get; private set; }
+
         private readonly IDisposable _shareLinkSubscription;
         private readonly IDisposable _textToSpeechSubscription;
 
@@ -40,7 +43,8 @@ namespace ShareLink.ViewModels.ViewModels
                                  ITextToSpeechService textToSpeechService,
                                  ApplicationSettingsService settingsService,
                                  ISettingsService settingsUiService,
-                                 IShareDataRepository shareDataRepository)
+                                 IShareDataRepository shareDataRepository,
+                                 INavigationService navigationService)
         {
             Text = DefineClipboardObservable(windowService.IsVisibleObservable, clipboardService).ToReactiveProperty();
 
@@ -73,6 +77,7 @@ namespace ShareLink.ViewModels.ViewModels
                                                               .Subscribe(shareData => ShareLink(dataTransferService, shareData.Title, shareData.Uri));
 
             SettingsCommand = new DelegateCommand(settingsUiService.ShowSettings);
+            HistoryCommand = new DelegateCommand(() => navigationService.Navigate("History", null));
 
             _test = shareDataRepository.ShareDataObservable.Subscribe(shareData => Debug.WriteLine(shareData));
 

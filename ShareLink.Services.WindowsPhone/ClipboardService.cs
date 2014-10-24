@@ -1,6 +1,6 @@
 ﻿using System.Threading;
 using System.Threading.Tasks;
-using Services.Interfaces;
+using ShareLink.Services.Interfaces;
 
 namespace ShareLink.Services.WindowsPhone
 {

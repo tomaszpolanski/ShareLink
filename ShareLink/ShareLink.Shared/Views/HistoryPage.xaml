@@ -1,0 +1,47 @@
+﻿<storeApps:VisualStateAwarePage
+    x:Class="ShareLink.Views.HistoryPage"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:storeApps="using:Microsoft.Practices.Prism.StoreApps"
+    xmlns:mvvm="using:Microsoft.Practices.Prism.Mvvm"
+    mc:Ignorable="d"
+    mvvm:ViewModelLocator.AutoWireViewModel="true">
+
+
+    <Grid  Margin="60,0">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="140" />
+            <RowDefinition Height="*" />
+        </Grid.RowDefinitions>
+
+        <!-- Back button, page title and subtitles-->
+        <Grid VerticalAlignment="Bottom">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="Auto" />
+                <ColumnDefinition Width="*" />
+            </Grid.ColumnDefinitions>
+            <Button Command="{Binding GoBackCommand}"
+                    Style="{StaticResource NavigationBackButtonNormalStyle}" />
+            <TextBlock Text="History"
+                       IsHitTestVisible="false"
+                       Margin="20,0"
+                       Style="{StaticResource SubheaderTextBlockStyle}"
+                       Grid.Column="1"/>
+        </Grid>
+        <GridView ItemsSource="{Binding ShareDataList}"
+                  Grid.Row="1">
+            <GridView.ItemTemplate>
+                <DataTemplate>
+                    <StackPanel Width="400"
+                                Margin="10">
+                        <TextBlock Text="{Binding Title}"
+                                   FontWeight="Bold"/>
+                        <TextBlock Text="{Binding Uri}"/>
+                    </StackPanel>
+                </DataTemplate>
+            </GridView.ItemTemplate>
+        </GridView>
+    </Grid>
+</storeApps:VisualStateAwarePage>
