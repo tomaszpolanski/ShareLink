@@ -1,7 +1,7 @@
 ﻿using System;
 using Windows.Storage;
 
-namespace ShareLink.Services
+namespace ShareLink.Services.Universal
 {
     public class RoamingCacheService : CacheService
     {

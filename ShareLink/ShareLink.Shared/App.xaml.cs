@@ -12,6 +12,7 @@ using Services.Interfaces;
 using ShareLink.Models;
 using ShareLink.Services;
 using ShareLink.Services.Interfaces;
+using ShareLink.Services.Universal;
 using ShareLink.Views;
 #if WINDOWS_APP
 using Windows.UI.ApplicationSettings;

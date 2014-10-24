@@ -27,6 +27,7 @@ namespace ShareLink.Tests.ViewModels
         private ITextToSpeechService _textToSpeechService;
         private ApplicationSettingsService _applicationSettingsService;
         private ISettingsService _uiSettingsService;
+        private IShareDataRepository _shareDataRepository;
 
         [TestInitialize]
         public void Initialize()
@@ -39,6 +40,7 @@ namespace ShareLink.Tests.ViewModels
             _textToSpeechService = A.Fake<ITextToSpeechService>();
             _applicationSettingsService = new ApplicationSettingsService(new MockApplicationDataContainer());
             _uiSettingsService = A.Fake<ISettingsService>();
+            _shareDataRepository = A.Fake<IShareDataRepository>();
 
             A.CallTo(() => _schedulerProvider.Default).Returns(_testScheduler);
         }
@@ -52,7 +54,7 @@ namespace ShareLink.Tests.ViewModels
         {
             return new MainPageViewModel(_windowService, _dataTransferService, _clipboardService,
                 _httpService, _schedulerProvider, _textToSpeechService, _applicationSettingsService,
-                _uiSettingsService);
+                _uiSettingsService, _shareDataRepository);
         }
 
         [TestMethod]

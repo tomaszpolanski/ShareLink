@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 using Windows.Storage;
 using ShareLink.Services.Interfaces;
 
-namespace ShareLink.Services
+namespace ShareLink.Services.Universal
 {
     public abstract class CacheService : ICacheService
     {
