@@ -54,7 +54,8 @@ namespace ShareLink.Services
             try
             {
                 // Retrieve the items from the cache
-                return await service.GetDataAsync<ICollection<ShareData>>(CacheFileName, token);
+                var data = await service.GetDataAsync<ICollection<ShareData>>(CacheFileName, token);
+                return data;
             }
             catch (FileNotFoundException)
             {

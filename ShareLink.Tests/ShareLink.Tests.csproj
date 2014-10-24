@@ -89,6 +89,7 @@
     <Compile Include="Mocks\MockApplicationDataContainer.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Services\TestHttpService.cs" />
+    <Compile Include="Services\TestShareDataRepository.cs" />
     <Compile Include="ViewModels\TestMainPageViewModel.cs" />
     <Compile Include="ViewModels\TestSettingsPageViewModel.cs" />
   </ItemGroup>
