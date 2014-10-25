@@ -15,6 +15,7 @@
     <Compile Include="$(MSBuildThisFileDirectory)App.xaml.cs">
       <DependentUpon>App.xaml</DependentUpon>
     </Compile>
+    <Compile Include="$(MSBuildThisFileDirectory)Behaviors\AnimationBehavior.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Behaviors\Behavior.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Behaviors\SelectAllBehavior.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Commands\KeyDownCommand.cs" />

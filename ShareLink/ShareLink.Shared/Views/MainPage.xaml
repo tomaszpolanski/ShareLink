@@ -19,6 +19,9 @@
     <Grid Background="Black">
         <Grid.Resources>
             <converters:InvertedBooleanConverter x:Key="InvertedBooleanConverter" />
+            <Storyboard x:Name="opacityAnimation">
+                <FadeOutThemeAnimation/>
+            </Storyboard>
         </Grid.Resources>
         <ProgressBar IsIndeterminate="{Binding IsInProgress.Value}"
                      VerticalAlignment="Top"/>
@@ -40,13 +43,18 @@
                     <behaviors:SelectAllBehavior ChangedProperty="{Binding SelectAllTextTrigger.Value}" />
                 </interactivity:Interaction.Behaviors>
             </TextBox>
-            <Button Content="Share"
+            <Button x:Name="button"
+                    Content="Share"
                     HorizontalAlignment="Center"
                     Command="{Binding ShareCommand}"
                     FontSize="30"
                     Height="100"
                     Width="200"
-                    Margin="0,50"/>
+                    Margin="0,50">
+                <interactivity:Interaction.Behaviors>
+                    <behaviors:AnimationBehavior ChangedProperty="{Binding Text.Value}" Animation="{StaticResource opacityAnimation}" />
+                </interactivity:Interaction.Behaviors>
+            </Button>
         </StackPanel>
 
     </Grid>
