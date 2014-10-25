@@ -6,44 +6,29 @@
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:storeApps="using:Microsoft.Practices.Prism.StoreApps"
     xmlns:mvvm="using:Microsoft.Practices.Prism.Mvvm"
+    xmlns:controls="using:ShareLink.Controls"
     mc:Ignorable="d"
     mvvm:ViewModelLocator.AutoWireViewModel="true">
 
-
-    <Grid  Margin="60,0">
-        <Grid.RowDefinitions>
-            <RowDefinition Height="140" />
-            <RowDefinition Height="*" />
-        </Grid.RowDefinitions>
-
-        <!-- Back button, page title and subtitles-->
-        <Grid VerticalAlignment="Bottom">
-            <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="Auto" />
-                <ColumnDefinition Width="*" />
-            </Grid.ColumnDefinitions>
-            <Button Command="{Binding GoBackCommand}"
-                    Style="{StaticResource NavigationBackButtonNormalStyle}" />
-            <TextBlock Text="History"
-                       IsHitTestVisible="false"
-                       Margin="20,0"
-                       Style="{StaticResource SubheaderTextBlockStyle}"
-                       Grid.Column="1"/>
-        </Grid>
-        <GridView ItemsSource="{Binding ShareDataList}"
-                  Grid.Row="1">
-            <GridView.ItemTemplate>
-                <DataTemplate>
-                    <StackPanel Width="400"
+    <controls:PageContainer GoBackCommand="{Binding GoBackCommand}" 
+                            Title="History">
+        <controls:PageContainer.Body>
+            <GridView ItemsSource="{Binding ShareDataList}">
+                <GridView.ItemTemplate>
+                    <DataTemplate>
+                        <StackPanel Width="400"
                                 Margin="10">
-                        <TextBlock Text="{Binding Title}"
+                            <TextBlock Text="{Binding Title}"
                                    FontWeight="Bold"/>
-                        <TextBlock Text="{Binding Uri}"/>
-                    </StackPanel>
-                </DataTemplate>
-            </GridView.ItemTemplate>
-        </GridView>
-    </Grid>
+                            <TextBlock Text="{Binding Uri}"/>
+                        </StackPanel>
+                    </DataTemplate>
+                </GridView.ItemTemplate>
+            </GridView>
+        </controls:PageContainer.Body>
+    </controls:PageContainer>
+
+
     <Page.BottomAppBar>
         <CommandBar>
             <CommandBar.PrimaryCommands>

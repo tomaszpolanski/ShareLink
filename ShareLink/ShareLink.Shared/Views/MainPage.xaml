@@ -59,8 +59,7 @@
                     <behaviors:SelectAllBehavior ChangedProperty="{Binding SelectAllTextTrigger.Value}" />
                 </interactivity:Interaction.Behaviors>
             </TextBox>
-            <Button x:Name="button"
-                    Content="Share"
+            <Button Content="Share"
                     HorizontalAlignment="Center"
                     Command="{Binding ShareCommand}"
                     FontSize="30"

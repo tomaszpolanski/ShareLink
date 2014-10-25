@@ -1,0 +1,35 @@
+<ResourceDictionary
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:local="using:ShareLink.Controls">
+
+    <Style TargetType="local:PageContainer">
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="local:PageContainer">
+                    <Grid  Margin="60,0">
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="140" />
+                            <RowDefinition Height="*" />
+                        </Grid.RowDefinitions>
+                        <Grid VerticalAlignment="Bottom">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="Auto" />
+                                <ColumnDefinition Width="*" />
+                            </Grid.ColumnDefinitions>
+                            <Button Command="{TemplateBinding GoBackCommand}"
+                                    Style="{StaticResource NavigationBackButtonNormalStyle}" />
+                            <TextBlock Text="{TemplateBinding Title}"
+                                       IsHitTestVisible="false"
+                                       Margin="20,0"
+                                       Style="{StaticResource SubheaderTextBlockStyle}"
+                                       Grid.Column="1"/>
+                        </Grid>
+                        <ContentPresenter Content="{TemplateBinding Body}" 
+                                          Grid.Row="1"/>
+                    </Grid>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+</ResourceDictionary>

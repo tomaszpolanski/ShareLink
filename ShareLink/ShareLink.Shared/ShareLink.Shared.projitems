@@ -19,6 +19,7 @@
     <Compile Include="$(MSBuildThisFileDirectory)Behaviors\Behavior.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Behaviors\SelectAllBehavior.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Commands\KeyDownCommand.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Controls\PageContainer.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Controls\SettingsControl.xaml.cs">
       <DependentUpon>SettingsControl.xaml</DependentUpon>
     </Compile>
