@@ -8,14 +8,14 @@ namespace ShareLink.Behaviors
 {
     public class AnimationBehavior : Behavior<FrameworkElement>
     {
-        public object ChangedProperty
+        public bool ChangedProperty
         {
-            get { return (object)GetValue(ChangedPropertyProperty); }
+            get { return (bool)GetValue(ChangedPropertyProperty); }
             set { SetValue(ChangedPropertyProperty, value); }
         }
 
         public static DependencyProperty ChangedPropertyProperty =
-            DependencyProperty.RegisterAttached("ChangedProperty", typeof(object), typeof(AnimationBehavior), new PropertyMetadata(null, OnPropertyErrorsChanged));
+            DependencyProperty.RegisterAttached("ChangedProperty", typeof(bool), typeof(AnimationBehavior), new PropertyMetadata(null, OnPropertyChanged));
 
         public Storyboard Animation
         {
@@ -36,15 +36,16 @@ namespace ShareLink.Behaviors
             return (attached.GetValue(AnimationProperty) as Storyboard);
         }
 
-        private static void OnPropertyErrorsChanged(DependencyObject d, DependencyPropertyChangedEventArgs args)
+        private static void OnPropertyChanged(DependencyObject d, DependencyPropertyChangedEventArgs args)
         {
-            if (args == null || args.NewValue == null)
+            if (args == null || args.NewValue == null || !(bool)args.NewValue)
             {
                 return;
             }
             var animation = GetAnimation(d);
             if (animation != null)
             {
+                animation.Stop();
                 var associatedObject = ((Behavior<FrameworkElement>)d).AssociatedObject;
                 foreach(var timeLine in animation.Children)
                 {

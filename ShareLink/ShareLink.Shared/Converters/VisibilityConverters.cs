@@ -129,6 +129,19 @@ namespace ShareLink.Converters
     {
         public object Convert(object value, Type targetType, object parameter, string language)
         {
+            return !string.IsNullOrEmpty(value as string);
+        }
+
+        public object ConvertBack(object value, Type targetType, object parameter, string language)
+        {
+            throw new NotSupportedException();
+        }
+    }
+
+    public sealed class InvertedStringToBooleanConverter : IValueConverter
+    {
+        public object Convert(object value, Type targetType, object parameter, string language)
+        {
             return string.IsNullOrEmpty(value as string);
         }
 

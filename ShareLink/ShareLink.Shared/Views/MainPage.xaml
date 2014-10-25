@@ -19,18 +19,34 @@
     <Grid Background="Black">
         <Grid.Resources>
             <converters:InvertedBooleanConverter x:Key="InvertedBooleanConverter" />
-            <Storyboard x:Name="opacityAnimation">
-                <FadeOutThemeAnimation/>
+            <converters:StringToBooleanConverter x:Key="StringToBooleanConverter" />
+            <converters:InvertedStringToBooleanConverter x:Key="InvertedStringToBooleanConverter" />
+            <Storyboard x:Name="fadeOutAnimation">
+                <DoubleAnimation
+                    Storyboard.TargetProperty="Opacity"
+                    To="0.0" Duration="0:0:0.1"/>
+            </Storyboard>
+            <Storyboard x:Name="fadeInAnimation">
+                <DoubleAnimation
+                    Storyboard.TargetProperty="Opacity"
+                    To="1.0" Duration="0:0:0.5" />
             </Storyboard>
         </Grid.Resources>
         <ProgressBar IsIndeterminate="{Binding IsInProgress.Value}"
                      VerticalAlignment="Top"/>
         <StackPanel VerticalAlignment="Center">
-            <TextBlock Style="{StaticResource TitleTextBlockStyle}"
+            <TextBlock x:Name="asdf"
+                       Style="{StaticResource TitleTextBlockStyle}"
                        HorizontalAlignment="Center"
                        Text="{Binding ErrorMessage.Value}"
                        Margin="0,0,0,30"
-                       FontSize="25"/>
+                       Opacity="0"
+                       FontSize="25">
+                <interactivity:Interaction.Behaviors>
+                    <behaviors:AnimationBehavior ChangedProperty="{Binding ErrorMessage.Value, Converter={StaticResource StringToBooleanConverter}}" Animation="{StaticResource fadeInAnimation}" />
+                    <behaviors:AnimationBehavior ChangedProperty="{Binding ErrorMessage.Value, Converter={StaticResource InvertedBooleanConverter}}" Animation="{StaticResource fadeOutAnimation}" />
+                </interactivity:Interaction.Behaviors>
+            </TextBlock>
             <TextBox  PlaceholderText="Url"
                       FontSize="30"
                       Text="{Binding Text.Value, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"
@@ -51,9 +67,6 @@
                     Height="100"
                     Width="200"
                     Margin="0,50">
-                <interactivity:Interaction.Behaviors>
-                    <behaviors:AnimationBehavior ChangedProperty="{Binding Text.Value}" Animation="{StaticResource opacityAnimation}" />
-                </interactivity:Interaction.Behaviors>
             </Button>
         </StackPanel>
 

@@ -68,7 +68,7 @@ namespace ShareLink.ViewModels.ViewModels
                                        .ToReadonlyReactiveProperty();
 
             ErrorMessage = DefineErrorMessageObservable(shareTrigger, urlTitleResolveObservable)
-                                       .ToReadonlyReactiveProperty();
+                                       .ToReadonlyReactiveProperty((string)null);
 
             _textToSpeechSubscription = DefineTextToSpeachObservable(urlTitleResolveObservable, settingsService, textToSpeechService)
                                                     .Subscribe();
@@ -163,7 +163,7 @@ namespace ShareLink.ViewModels.ViewModels
 
         private static IObservable<string> DefineErrorMessageObservable(IObservable<object> shareStartedObservable, IObservable<ShareData> shareFinishedObservable)
         {
-            return shareStartedObservable.Select(_ => string.Empty)
+            return shareStartedObservable.Select(_ => (string)null)
                                          .Merge(shareFinishedObservable.Where(shareData => shareData.Exception != null)
                                                                        .Select(_ => "Couldn't resolve page title"));
         }
