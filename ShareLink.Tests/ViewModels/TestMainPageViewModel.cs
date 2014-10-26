@@ -7,6 +7,7 @@ using Microsoft.Practices.Prism.Mvvm.Interfaces;
 using Microsoft.Reactive.Testing;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Services.Interfaces;
+using ShareLink.Models;
 using ShareLink.Services;
 using ShareLink.Services.Interfaces;
 using ShareLink.Tests.Mocks;
@@ -171,10 +172,11 @@ namespace ShareLink.Tests.ViewModels
 
             viewModel.ShareCommand.Execute();
 
-            A.CallTo(() => _dataTransferService.Share(A<string>.Ignored, A<string>.Ignored, A<Uri>.Ignored)).MustHaveHappened(Repeated.Exactly.Once);
+            A.CallTo(() => _dataTransferService.Share(A<ShareData>.Ignored)).MustHaveHappened(Repeated.Exactly.Once);
         }
 
         [TestMethod]
+        [Ignore] // verify title
         public void ResolveTitleOfPage()
         {
             const string pageTitle = "SomeTitle";
@@ -184,7 +186,7 @@ namespace ShareLink.Tests.ViewModels
 
             viewModel.ShareCommand.Execute();
 
-            A.CallTo(() => _dataTransferService.Share(pageTitle, A<string>.Ignored, A<Uri>.Ignored)).MustHaveHappened(Repeated.Exactly.Once);
+            A.CallTo(() => _dataTransferService.Share(A<ShareData>.Ignored)).MustHaveHappened(Repeated.Exactly.Once);
         }
 
         [TestMethod]

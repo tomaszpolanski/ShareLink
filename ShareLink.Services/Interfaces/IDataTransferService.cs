@@ -1,9 +1,11 @@
 ﻿using System;
+using ShareLink.Models;
 
-namespace Services.Interfaces
+namespace ShareLink.Services.Interfaces
 {
     public interface IDataTransferService
     {
-        void Share(string title, string description, Uri webLink);
+        IObservable<string> ShareTargetObservable { get; } 
+        void Share(ShareData shareData);
     }
 }

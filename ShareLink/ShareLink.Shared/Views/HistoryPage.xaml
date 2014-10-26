@@ -21,6 +21,7 @@
                             <TextBlock Text="{Binding Title}"
                                    FontWeight="Bold"/>
                             <TextBlock Text="{Binding Uri}"/>
+                            <TextBlock Text="{Binding ApplicationName}"/>
                         </StackPanel>
                     </DataTemplate>
                 </GridView.ItemTemplate>

@@ -186,7 +186,7 @@ namespace ShareLink.ViewModels.ViewModels
 
         private static void ShareLink(IDataTransferService transferService, string title, Uri uri)
         {
-            transferService.Share(title, uri.ToString(), uri);
+            transferService.Share(new ShareData(title, uri.ToString()));
         }
     }
 }
