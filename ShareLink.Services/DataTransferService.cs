@@ -48,6 +48,10 @@ namespace ShareLink.Services
         public void Share(ShareData shareData)
         {
             _shareData = shareData;
+            if (string.IsNullOrEmpty(_shareData.Title))
+            {
+                _shareData.Title = _shareData.Uri.ToString();
+            }
             DataTransferManager.ShowShareUI();
         }
 

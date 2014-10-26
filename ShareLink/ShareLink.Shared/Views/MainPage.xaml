@@ -35,8 +35,7 @@
         <ProgressBar IsIndeterminate="{Binding IsInProgress.Value}"
                      VerticalAlignment="Top"/>
         <StackPanel VerticalAlignment="Center">
-            <TextBlock x:Name="asdf"
-                       Style="{StaticResource TitleTextBlockStyle}"
+            <TextBlock Style="{StaticResource TitleTextBlockStyle}"
                        HorizontalAlignment="Center"
                        Text="{Binding ErrorMessage.Value}"
                        Margin="0,0,0,30"
@@ -44,7 +43,7 @@
                        FontSize="25">
                 <interactivity:Interaction.Behaviors>
                     <behaviors:AnimationBehavior ChangedProperty="{Binding ErrorMessage.Value, Converter={StaticResource StringToBooleanConverter}}" Animation="{StaticResource fadeInAnimation}" />
-                    <behaviors:AnimationBehavior ChangedProperty="{Binding ErrorMessage.Value, Converter={StaticResource InvertedBooleanConverter}}" Animation="{StaticResource fadeOutAnimation}" />
+                    <behaviors:AnimationBehavior ChangedProperty="{Binding ErrorMessage.Value, Converter={StaticResource InvertedStringToBooleanConverter}}" Animation="{StaticResource fadeOutAnimation}" />
                 </interactivity:Interaction.Behaviors>
             </TextBlock>
             <TextBox  PlaceholderText="Url"

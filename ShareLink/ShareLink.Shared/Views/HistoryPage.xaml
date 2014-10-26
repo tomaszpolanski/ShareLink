@@ -7,13 +7,17 @@
     xmlns:storeApps="using:Microsoft.Practices.Prism.StoreApps"
     xmlns:mvvm="using:Microsoft.Practices.Prism.Mvvm"
     xmlns:controls="using:ShareLink.Controls"
+    xmlns:commands="using:ShareLink.Commands"
     mc:Ignorable="d"
     mvvm:ViewModelLocator.AutoWireViewModel="true">
 
     <controls:PageContainer GoBackCommand="{Binding GoBackCommand}" 
                             Title="History">
         <controls:PageContainer.Body>
-            <GridView ItemsSource="{Binding ShareDataList}">
+            <GridView ItemsSource="{Binding ShareDataList}"
+                      commands:ItemClickCommand.Command="{Binding ReshareCommand}"
+                      SelectionMode="None"
+                      IsItemClickEnabled="True">
                 <GridView.ItemTemplate>
                     <DataTemplate>
                         <StackPanel Width="400"
@@ -21,7 +25,7 @@
                             <TextBlock Text="{Binding Title}"
                                    FontWeight="Bold"/>
                             <TextBlock Text="{Binding Uri}"/>
-                            <TextBlock Text="{Binding ApplicationName}"/>
+                            <TextBlock Text="{Binding Description}"/>
                         </StackPanel>
                     </DataTemplate>
                 </GridView.ItemTemplate>
@@ -30,13 +34,4 @@
     </controls:PageContainer>
 
 
-    <Page.BottomAppBar>
-        <CommandBar>
-            <CommandBar.PrimaryCommands>
-                <AppBarButton Label="Reshare"
-                             Icon="Send"
-                             Command="{Binding ReshareCommand}"/>
-            </CommandBar.PrimaryCommands>
-        </CommandBar>
-    </Page.BottomAppBar>
 </storeApps:VisualStateAwarePage>

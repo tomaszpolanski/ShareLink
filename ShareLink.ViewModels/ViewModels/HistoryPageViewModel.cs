@@ -4,7 +4,6 @@ using System.Windows.Input;
 using Microsoft.Practices.Prism.Commands;
 using Microsoft.Practices.Prism.Mvvm;
 using Microsoft.Practices.Prism.Mvvm.Interfaces;
-using Services.Interfaces;
 using ShareLink.Models;
 using ShareLink.Services.Interfaces;
 
@@ -14,7 +13,7 @@ namespace ShareLink.ViewModels.ViewModels
     {
         private readonly IDisposable _sharedItemsSubscription;
 
-        public ObservableCollection<ShareData> ShareDataList { get; private set; }
+        public ObservableCollection<HistoryItemViewModel> ShareDataList { get; private set; }
 
         public ICommand GoBackCommand { get; private set; }
         public ICommand ReshareCommand { get; private set; }
@@ -22,21 +21,27 @@ namespace ShareLink.ViewModels.ViewModels
 
         public HistoryPageViewModel(IShareDataRepository shareDataRepository, INavigationService navigationService, IDataTransferService dataTransferService)
         {
-            ShareDataList = new ObservableCollection<ShareData>();
+            ShareDataList = new ObservableCollection<HistoryItemViewModel>();
 
-            _sharedItemsSubscription = shareDataRepository.ShareDataObservable.Subscribe(ShareDataList.Add);
+            _sharedItemsSubscription = shareDataRepository.ShareDataObservable.Subscribe(AddHistoryItem);
 
             GoBackCommand = new DelegateCommand(navigationService.GoBack);
-            ReshareCommand = new DelegateCommand(() => ShareLink(dataTransferService, "test", new Uri("http://www.test.test")));
+            ReshareCommand = new DelegateCommand<HistoryItemViewModel>(historyItem => ShareLink(dataTransferService, historyItem));
         }
 
         public void Dispose()
         {
             _sharedItemsSubscription.Dispose();
         }
-        private static void ShareLink(IDataTransferService transferService, string title, Uri uri)
+
+        private void AddHistoryItem(ShareData shareData)
         {
-            transferService.Share(new ShareData(title, uri.ToString()));;
+            ShareDataList.Add(new HistoryItemViewModel(shareData));
+        }
+
+        private static void ShareLink(IDataTransferService transferService, HistoryItemViewModel historyItem)
+        {
+            transferService.Share(historyItem.SharedData);
         }
     }
 }
