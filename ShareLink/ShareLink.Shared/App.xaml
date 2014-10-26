@@ -4,4 +4,14 @@
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:mvvm="using:Microsoft.Practices.Prism.Mvvm">
 
+    <Application.Resources>
+
+        <ResourceDictionary>
+
+       
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="StandardStyles.xaml" />
+            </ResourceDictionary.MergedDictionaries>
+        </ResourceDictionary>
+    </Application.Resources>
 </mvvm:MvvmAppBase>

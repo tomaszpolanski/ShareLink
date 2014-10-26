@@ -11,6 +11,7 @@
     mc:Ignorable="d"
     mvvm:ViewModelLocator.AutoWireViewModel="true">
 
+
     <controls:PageContainer GoBackCommand="{Binding GoBackCommand}" 
                             Title="History">
         <controls:PageContainer.Body>

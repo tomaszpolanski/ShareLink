@@ -16,7 +16,8 @@
     d:DataContext="{d:DesignInstance designViewModels:MainPageDesignViewModel, IsDesignTimeCreatable=True}"
     Background="Black">
 
-    <Grid Background="Black">
+    
+    <Grid Style="{StaticResource LayoutRootStyle}">
         <Grid.Resources>
             <converters:InvertedBooleanConverter x:Key="InvertedBooleanConverter" />
             <converters:StringToBooleanConverter x:Key="StringToBooleanConverter" />
