@@ -58,7 +58,7 @@ namespace ShareLink.Tests.ViewModels
         {
             return new MainPageViewModel(_windowService, _dataTransferService, _clipboardService,
                 _httpService, _schedulerProvider, _textToSpeechService, _applicationSettingsService,
-                _uiSettingsService, _shareDataRepository, _navigationService);
+                _uiSettingsService, _navigationService);
         }
 
         [TestMethod]

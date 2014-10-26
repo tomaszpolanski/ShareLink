@@ -33,8 +33,6 @@ namespace ShareLink.ViewModels.ViewModels
         private readonly IDisposable _shareLinkSubscription;
         private readonly IDisposable _textToSpeechSubscription;
 
-        private IDisposable _test;
-
         public MainPageViewModel(IWindowService windowService, 
                                  IDataTransferService dataTransferService, 
                                  IClipboardService clipboardService, 
@@ -43,7 +41,6 @@ namespace ShareLink.ViewModels.ViewModels
                                  ITextToSpeechService textToSpeechService,
                                  ApplicationSettingsService settingsService,
                                  ISettingsService settingsUiService,
-                                 IShareDataRepository shareDataRepository,
                                  INavigationService navigationService)
         {
             Text = DefineClipboardObservable(windowService.IsVisibleObservable, clipboardService).ToReactiveProperty();
@@ -68,7 +65,7 @@ namespace ShareLink.ViewModels.ViewModels
                                        .ToReadonlyReactiveProperty();
 
             ErrorMessage = DefineErrorMessageObservable(shareTrigger, urlTitleResolveObservable)
-                                       .ToReadonlyReactiveProperty((string)null);
+                                       .ToReadonlyReactiveProperty();
 
             _textToSpeechSubscription = DefineTextToSpeachObservable(urlTitleResolveObservable, settingsService, textToSpeechService)
                                                     .Subscribe();
@@ -78,9 +75,6 @@ namespace ShareLink.ViewModels.ViewModels
 
             SettingsCommand = new DelegateCommand(settingsUiService.ShowSettings);
             HistoryCommand = new DelegateCommand(() => navigationService.Navigate("History", null));
-
-            _test = shareDataRepository.ShareDataObservable.Subscribe(shareData => Debug.WriteLine(shareData));
-
         }
 
         public void Dispose()
