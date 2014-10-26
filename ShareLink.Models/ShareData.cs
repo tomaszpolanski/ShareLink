@@ -6,7 +6,6 @@ namespace ShareLink.Models
     {
         public string Title { get; set; }
         public Uri Uri { get; set; }
-        public Exception Exception { get; set; }
         public string ApplicationName { get; set; }
 
         public ShareData()
@@ -18,12 +17,6 @@ namespace ShareLink.Models
         {
             Title = title;
             Uri = new Uri(url);
-        }
-
-        public ShareData(string title, string url, Exception exception) :
-            this(title, url)
-        {
-            Exception = exception;
         }
 
         public override string ToString()

@@ -9,7 +9,6 @@ namespace ShareLink.Services
 {
     public class DataTransferService : IDataTransferService, IDisposable
     {
-        private readonly IShareDataRepository _shareDataRepository;
         private readonly IDisposable _dataTransferSubscription;
         private readonly IDisposable _dataSharedSubscription;
 
@@ -19,7 +18,6 @@ namespace ShareLink.Services
 
         public DataTransferService(IShareDataRepository shareDataRepository)
         {
-            _shareDataRepository = shareDataRepository;
             var dataTransferManager = DataTransferManager.GetForCurrentView();
             var sharingDataObservable = Observable.FromEventPattern<TypedEventHandler<DataTransferManager, DataRequestedEventArgs>, DataTransferManager, DataRequestedEventArgs>(
                                                        h => dataTransferManager.DataRequested += h,

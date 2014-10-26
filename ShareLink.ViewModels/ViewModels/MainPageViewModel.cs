@@ -133,7 +133,7 @@ namespace ShareLink.ViewModels.ViewModels
         {
             return shareTrigger.Select(url => Observable.FromAsync(token => httpService.GetPageTitleAsync(new Uri(url), token))
                                                         .Select(title => new ShareData(title, url))
-                                                        .Catch<ShareData, HttpRequestException>(exception => Observable.Return(new ShareData(url.ToString(), url, exception))))
+                                                        .Catch<ShareData, HttpRequestException>(exception => Observable.Return(new ShareData(string.Empty, url))))
                                .Switch()
                                .Publish()
                                .RefCount();
@@ -164,14 +164,14 @@ namespace ShareLink.ViewModels.ViewModels
         private static IObservable<string> DefineErrorMessageObservable(IObservable<object> shareStartedObservable, IObservable<ShareData> shareFinishedObservable)
         {
             return shareStartedObservable.Select(_ => (string)null)
-                                         .Merge(shareFinishedObservable.Where(shareData => shareData.Exception != null)
+                                         .Merge(shareFinishedObservable.Where(shareData => string.IsNullOrEmpty(shareData.Title))
                                                                        .Select(_ => "Couldn't resolve page title"));
         }
 
         private static IObservable<System.Reactive.Unit> DefineTextToSpeachObservable(IObservable<ShareData> shareFinishedObservable, ApplicationSettingsService settingsService, ITextToSpeechService textToSpeechService)
         {
             return shareFinishedObservable.Where(_ => settingsService.IsSpeechEnabled)
-                                          .Where(shareData => shareData.Exception == null)
+                                          .Where(shareData => !string.IsNullOrEmpty( shareData.Title))
                                           .SubscribeOnUI()
                                           .ObserveOnUI()
                                           .Select(shareData => Observable.FromAsync(token => textToSpeechService.PlayTextAsync(shareData.Title, token)))
