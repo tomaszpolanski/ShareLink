@@ -33,16 +33,5 @@ namespace ShareLink.ViewModels.ViewModels
             _isSpeechEnabledSubscription.Dispose();
             IsSpeechEnabled.Dispose();
         }
-
-        public override void OnNavigatedFrom(Dictionary<string, object> viewModelState, bool suspending)
-        {
-            base.OnNavigatedFrom(viewModelState, suspending);
-            Dispose();
-        }
-
-        public override void OnNavigatedTo(object navigationParameter, NavigationMode navigationMode, Dictionary<string, object> viewModelState)
-        {
-            base.OnNavigatedTo(navigationParameter, navigationMode, viewModelState);
-        }
     }
 }

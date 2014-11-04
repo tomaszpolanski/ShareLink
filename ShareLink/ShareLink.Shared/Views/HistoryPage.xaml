@@ -1,4 +1,4 @@
-﻿<storeApps:VisualStateAwarePage
+﻿<controls:DisposingPage
     x:Class="ShareLink.Views.HistoryPage"
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
@@ -35,4 +35,4 @@
     </controls:PageContainer>
 
 
-</storeApps:VisualStateAwarePage>
+</controls:DisposingPage>

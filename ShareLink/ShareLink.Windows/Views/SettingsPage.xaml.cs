@@ -1,6 +1,7 @@
 ﻿using Windows.UI.Xaml.Controls;
 using Microsoft.Practices.Prism.Mvvm;
 using Microsoft.Practices.Prism.Mvvm.Interfaces;
+using System;
 
 namespace ShareLink.Views
 {

@@ -89,14 +89,6 @@ namespace ShareLink.ViewModels.ViewModels
             _textToSpeechSubscription.Dispose();
         }
 
-
-
-        public override void OnNavigatedFrom(Dictionary<string, object> viewModelState, bool suspending)
-        {
-            base.OnNavigatedFrom(viewModelState, suspending);
-            Dispose();
-        }
-
         private static IObservable<string> DefineClipboardObservable(IObservable<bool> applicationVisibilityObservable, IClipboardService clipboardService)
         {
             return  applicationVisibilityObservable.Select(isVisible => isVisible ? Observable.FromAsync(clipboardService.GetTextAsync) : 
