@@ -1,14 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Runtime.InteropServices.WindowsRuntime;
-using System.Windows.Input;
+﻿using System.Windows.Input;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
-using Windows.UI.Xaml.Data;
-using Windows.UI.Xaml.Documents;
-using Windows.UI.Xaml.Input;
-using Windows.UI.Xaml.Media;
 
 
 namespace ShareLink.Controls
@@ -59,7 +51,7 @@ namespace ShareLink.Controls
 
         public PageContainer()
         {
-            this.DefaultStyleKey = typeof(PageContainer);
+            DefaultStyleKey = typeof(PageContainer);
         }
     }
 }
