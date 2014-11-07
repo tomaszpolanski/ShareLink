@@ -14,6 +14,7 @@ using ShareLink.Models;
 using ShareLink.Services;
 using ShareLink.Services.Interfaces;
 using Utilities.Reactive;
+using System.Reactive;
 
 namespace ShareLink.ViewModels.ViewModels
 {
@@ -125,16 +126,17 @@ namespace ShareLink.ViewModels.ViewModels
                                .RefCount();
         }
 
-        private static IObservable<object> DefineEnterPressedObservable(IObservable<object> keyPressedObservable )
+        private static IObservable<Unit> DefineEnterPressedObservable(IObservable<object> keyPressedObservable )
         {
             return keyPressedObservable.Cast<VirtualKey?>()
                                        .Where(args => args != null && args.Value == VirtualKey.Enter)
-                                       .SelectNull();
+                                       .SelectUnit();
         }
 
-        private static IObservable<string> DefineShareTrigger(IObservable<string> formattedTextObservable, IObservable<object> shareObservable, IObservable<object> enterPressedObservable)
+        private static IObservable<string> DefineShareTrigger(IObservable<string> formattedTextObservable, IObservable<object> shareObservable, IObservable<Unit> enterPressedObservable)
         {
-            return formattedTextObservable.Select(text => shareObservable.Merge(enterPressedObservable)
+            return formattedTextObservable.Select(text => shareObservable.SelectUnit()
+                                                                         .Merge(enterPressedObservable)
                                                                          .Select(_ => text))
                                           .Switch()
                                           .Publish()
