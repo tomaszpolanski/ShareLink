@@ -1,6 +1,4 @@
-﻿using Microsoft.Practices.Prism.StoreApps;
-using ShareLink.Controls;
-using System;
+﻿using ShareLink.Controls;
 
 namespace ShareLink.Views
 {
