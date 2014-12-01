@@ -6,9 +6,9 @@ using System.Threading.Tasks;
 using FakeItEasy;
 using Microsoft.Reactive.Testing;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
-using ShareLink.Models;
 using ShareLink.Services;
 using ShareLink.Services.Interfaces;
+using ShareLink.Models;
 
 namespace ShareLink.Tests.Services
 {
@@ -49,7 +49,7 @@ namespace ShareLink.Tests.Services
         public void CacheReturnsSingleSavedSharedData()
         {
             var scheduler = new TestScheduler();
-            var shareData = new ShareData();
+            var shareData = new ShareData(string.Empty, null, string.Empty);
             A.CallTo(() => _cacheService.GetDataAsync<ICollection<ShareData>>(A<string>.Ignored, A<CancellationToken>.Ignored))
                 .Returns(Task.FromResult<ICollection<ShareData>>(new Collection<ShareData>{shareData}));
             var repository = CreateService();
@@ -67,9 +67,9 @@ namespace ShareLink.Tests.Services
         public void CacheReturnsMultipleSavedSharedData()
         {
             var scheduler = new TestScheduler();
-            var shareData1 = new ShareData();
-            var shareData2 = new ShareData();
-            var shareData3 = new ShareData();
+            var shareData1 = new ShareData(string.Empty, null, string.Empty);
+            var shareData2 = new ShareData(string.Empty, null, string.Empty);
+            var shareData3 = new ShareData(string.Empty, null, string.Empty);
             A.CallTo(() => _cacheService.GetDataAsync<ICollection<ShareData>>(A<string>.Ignored, A<CancellationToken>.Ignored))
                 .Returns(Task.FromResult<ICollection<ShareData>>(new Collection<ShareData> { shareData1, shareData2, shareData3 }));
             var repository = CreateService();
@@ -92,9 +92,9 @@ namespace ShareLink.Tests.Services
         public void MultipleSubscriptionsRetriggerSharedData()
         {
             var scheduler = new TestScheduler();
-            var shareData1 = new ShareData();
-            var shareData2 = new ShareData();
-            var shareData3 = new ShareData();
+            var shareData1 = new ShareData(string.Empty, null, string.Empty);
+            var shareData2 = new ShareData(string.Empty, null, string.Empty);
+            var shareData3 = new ShareData(string.Empty, null, string.Empty);
             A.CallTo(() => _cacheService.GetDataAsync<ICollection<ShareData>>(A<string>.Ignored, A<CancellationToken>.Ignored))
                 .Returns(Task.FromResult<ICollection<ShareData>>(new Collection<ShareData> { shareData1, shareData2, shareData3 }));
             var repository = CreateService();
@@ -120,8 +120,8 @@ namespace ShareLink.Tests.Services
         public void AddingNewDataUpdatesStream()
         {
             var scheduler = new TestScheduler();
-            var shareData1 = new ShareData();
-            var shareData2 = new ShareData();
+            var shareData1 = new ShareData(string.Empty, null, string.Empty);
+            var shareData2 = new ShareData(string.Empty, null, string.Empty);
             A.CallTo(() => _cacheService.GetDataAsync<ICollection<ShareData>>(A<string>.Ignored, A<CancellationToken>.Ignored))
                 .Returns(Task.FromResult<ICollection<ShareData>>(new Collection<ShareData> { shareData1}));
             var repository = CreateService();

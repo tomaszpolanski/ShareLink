@@ -13,8 +13,6 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ShareLink.WindowsPhone", "S
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Utilities.Reactive", "..\Utilities\Utilities.Reactive\Utilities.Reactive.csproj", "{5C6B624F-191D-40A7-AE78-7FB74F72400C}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ShareLink.Models", "ShareLink.Models\ShareLink.Models.csproj", "{CF3BE0CE-B6BC-48D1-B892-4F9175A32A61}"
-EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ShareLink.Services.Windows", "ShareLink.Services.Windows\ShareLink.Services.Windows.csproj", "{46E0DB51-79F2-497E-95FF-A3EC5C4A4647}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ShareLink.Services.WindowsPhone", "ShareLink.Services.WindowsPhone\ShareLink.Services.WindowsPhone.csproj", "{7946E452-50C7-4520-A6B1-8972BB0A82F4}"
@@ -33,6 +31,8 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = ".nuget", ".nuget", "{175EDF
 	EndProjectSection
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ShareLink.Services.Universal", "ShareLink.Services.Universal\ShareLink.Services.Universal.csproj", "{D0A4A4BB-44B8-4848-8D49-471FBF5CC115}"
+EndProject
+Project("{F2A71F9B-5D33-465A-A702-920D77279786}") = "ShareLink.Models", "ShareLink.Models\ShareLink.Models.fsproj", "{EAC6BAF1-64A8-4187-93AB-008C551EB1F3}"
 EndProject
 Global
 	GlobalSection(SharedMSBuildProjectFiles) = preSolution
@@ -103,17 +103,6 @@ Global
 		{5C6B624F-191D-40A7-AE78-7FB74F72400C}.Release|ARM.ActiveCfg = Release|Any CPU
 		{5C6B624F-191D-40A7-AE78-7FB74F72400C}.Release|x64.ActiveCfg = Release|Any CPU
 		{5C6B624F-191D-40A7-AE78-7FB74F72400C}.Release|x86.ActiveCfg = Release|Any CPU
-		{CF3BE0CE-B6BC-48D1-B892-4F9175A32A61}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{CF3BE0CE-B6BC-48D1-B892-4F9175A32A61}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{CF3BE0CE-B6BC-48D1-B892-4F9175A32A61}.Debug|ARM.ActiveCfg = Debug|Any CPU
-		{CF3BE0CE-B6BC-48D1-B892-4F9175A32A61}.Debug|ARM.Build.0 = Debug|Any CPU
-		{CF3BE0CE-B6BC-48D1-B892-4F9175A32A61}.Debug|x64.ActiveCfg = Debug|Any CPU
-		{CF3BE0CE-B6BC-48D1-B892-4F9175A32A61}.Debug|x86.ActiveCfg = Debug|Any CPU
-		{CF3BE0CE-B6BC-48D1-B892-4F9175A32A61}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{CF3BE0CE-B6BC-48D1-B892-4F9175A32A61}.Release|Any CPU.Build.0 = Release|Any CPU
-		{CF3BE0CE-B6BC-48D1-B892-4F9175A32A61}.Release|ARM.ActiveCfg = Release|Any CPU
-		{CF3BE0CE-B6BC-48D1-B892-4F9175A32A61}.Release|x64.ActiveCfg = Release|Any CPU
-		{CF3BE0CE-B6BC-48D1-B892-4F9175A32A61}.Release|x86.ActiveCfg = Release|Any CPU
 		{46E0DB51-79F2-497E-95FF-A3EC5C4A4647}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{46E0DB51-79F2-497E-95FF-A3EC5C4A4647}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{46E0DB51-79F2-497E-95FF-A3EC5C4A4647}.Debug|ARM.ActiveCfg = Debug|ARM
@@ -189,6 +178,22 @@ Global
 		{D0A4A4BB-44B8-4848-8D49-471FBF5CC115}.Release|ARM.ActiveCfg = Release|Any CPU
 		{D0A4A4BB-44B8-4848-8D49-471FBF5CC115}.Release|x64.ActiveCfg = Release|Any CPU
 		{D0A4A4BB-44B8-4848-8D49-471FBF5CC115}.Release|x86.ActiveCfg = Release|Any CPU
+		{EAC6BAF1-64A8-4187-93AB-008C551EB1F3}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{EAC6BAF1-64A8-4187-93AB-008C551EB1F3}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{EAC6BAF1-64A8-4187-93AB-008C551EB1F3}.Debug|ARM.ActiveCfg = Debug|Any CPU
+		{EAC6BAF1-64A8-4187-93AB-008C551EB1F3}.Debug|ARM.Build.0 = Debug|Any CPU
+		{EAC6BAF1-64A8-4187-93AB-008C551EB1F3}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{EAC6BAF1-64A8-4187-93AB-008C551EB1F3}.Debug|x64.Build.0 = Debug|Any CPU
+		{EAC6BAF1-64A8-4187-93AB-008C551EB1F3}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{EAC6BAF1-64A8-4187-93AB-008C551EB1F3}.Debug|x86.Build.0 = Debug|Any CPU
+		{EAC6BAF1-64A8-4187-93AB-008C551EB1F3}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{EAC6BAF1-64A8-4187-93AB-008C551EB1F3}.Release|Any CPU.Build.0 = Release|Any CPU
+		{EAC6BAF1-64A8-4187-93AB-008C551EB1F3}.Release|ARM.ActiveCfg = Release|Any CPU
+		{EAC6BAF1-64A8-4187-93AB-008C551EB1F3}.Release|ARM.Build.0 = Release|Any CPU
+		{EAC6BAF1-64A8-4187-93AB-008C551EB1F3}.Release|x64.ActiveCfg = Release|Any CPU
+		{EAC6BAF1-64A8-4187-93AB-008C551EB1F3}.Release|x64.Build.0 = Release|Any CPU
+		{EAC6BAF1-64A8-4187-93AB-008C551EB1F3}.Release|x86.ActiveCfg = Release|Any CPU
+		{EAC6BAF1-64A8-4187-93AB-008C551EB1F3}.Release|x86.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

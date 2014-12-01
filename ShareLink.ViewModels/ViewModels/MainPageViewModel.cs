@@ -119,8 +119,8 @@ namespace ShareLink.ViewModels.ViewModels
         private static IObservable<ShareData> DefineUrlTitleResolveObservable(IObservable<string> shareTrigger, IHttpService httpService )
         {
             return shareTrigger.Select(url => Observable.FromAsync(token => httpService.GetPageTitleAsync(new Uri(url), token))
-                                                        .Select(title => new ShareData(title, url))
-                                                        .Catch<ShareData, HttpRequestException>(exception => Observable.Return(new ShareData(string.Empty, url))))
+                                                        .Select(title => new ShareData(title, new Uri( url), string.Empty))
+                                                        .Catch<ShareData, HttpRequestException>(exception => Observable.Return(new ShareData(string.Empty, new Uri(url), string.Empty))))
                                .Switch()
                                .Publish()
                                .RefCount();
@@ -174,7 +174,7 @@ namespace ShareLink.ViewModels.ViewModels
 
         private static void ShareLink(IDataTransferService transferService, string title, Uri uri)
         {
-            transferService.Share(new ShareData(title, uri.ToString()));
+            transferService.Share(new ShareData(title, uri, string.Empty));
         }
     }
 }

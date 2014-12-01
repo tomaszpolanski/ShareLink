@@ -110,8 +110,8 @@
       <Project>{5c6b624f-191d-40a7-ae78-7fb74f72400c}</Project>
       <Name>Utilities.Reactive</Name>
     </ProjectReference>
-    <ProjectReference Include="..\ShareLink.Models\ShareLink.Models.csproj">
-      <Project>{cf3be0ce-b6bc-48d1-b892-4f9175a32a61}</Project>
+    <ProjectReference Include="..\ShareLink.Models\ShareLink.Models.fsproj">
+      <Project>{eac6baf1-64a8-4187-93ab-008c551eb1f3}</Project>
       <Name>ShareLink.Models</Name>
     </ProjectReference>
     <ProjectReference Include="..\ShareLink.Services\ShareLink.Services.csproj">

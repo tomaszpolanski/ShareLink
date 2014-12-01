@@ -152,8 +152,8 @@
     </SDKReference>
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\..\ShareLink.Models\ShareLink.Models.csproj">
-      <Project>{CF3BE0CE-B6BC-48D1-B892-4F9175A32A61}</Project>
+    <ProjectReference Include="..\..\ShareLink.Models\ShareLink.Models.fsproj">
+      <Project>{eac6baf1-64a8-4187-93ab-008c551eb1f3}</Project>
       <Name>ShareLink.Models</Name>
     </ProjectReference>
     <ProjectReference Include="..\..\ShareLink.Services.Universal\ShareLink.Services.Universal.csproj">

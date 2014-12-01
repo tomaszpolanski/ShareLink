@@ -50,7 +50,7 @@ namespace ShareLink.Services
             _shareData = shareData;
             if (string.IsNullOrEmpty(_shareData.Title))
             {
-                _shareData.Title = _shareData.Uri.ToString();
+                _shareData = _shareData.WithTitle(_shareData.Uri.ToString());
             }
             DataTransferManager.ShowShareUI();
         }
@@ -65,7 +65,7 @@ namespace ShareLink.Services
 
         private static void HandleSharedData(IShareDataRepository repository, ShareData data, string applicationName)
         {
-            data.ApplicationName = applicationName;
+            data = data.WithApplicationName(applicationName);
             repository.Add(data);
         }
 
