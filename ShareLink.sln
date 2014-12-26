@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio 2013
-VisualStudioVersion = 12.0.30723.0
+# Visual Studio 14
+VisualStudioVersion = 14.0.22310.1
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "ShareLink", "ShareLink", "{54AD6F6A-F504-496F-8B48-215469C9020C}"
 EndProject
@@ -10,8 +10,6 @@ EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ShareLink.Windows", "ShareLink\ShareLink.Windows\ShareLink.Windows.csproj", "{AC3A1485-A003-467B-B285-BD0F4E2B6EE5}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ShareLink.WindowsPhone", "ShareLink\ShareLink.WindowsPhone\ShareLink.WindowsPhone.csproj", "{52D98CE8-2FC6-452A-8CC5-7BA4434B9F7B}"
-EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Utilities.Reactive", "..\Utilities\Utilities.Reactive\Utilities.Reactive.csproj", "{5C6B624F-191D-40A7-AE78-7FB74F72400C}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ShareLink.Models", "ShareLink.Models\ShareLink.Models.csproj", "{CF3BE0CE-B6BC-48D1-B892-4F9175A32A61}"
 EndProject
@@ -93,16 +91,6 @@ Global
 		{52D98CE8-2FC6-452A-8CC5-7BA4434B9F7B}.Release|x86.ActiveCfg = Release|x86
 		{52D98CE8-2FC6-452A-8CC5-7BA4434B9F7B}.Release|x86.Build.0 = Release|x86
 		{52D98CE8-2FC6-452A-8CC5-7BA4434B9F7B}.Release|x86.Deploy.0 = Release|x86
-		{5C6B624F-191D-40A7-AE78-7FB74F72400C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{5C6B624F-191D-40A7-AE78-7FB74F72400C}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{5C6B624F-191D-40A7-AE78-7FB74F72400C}.Debug|ARM.ActiveCfg = Debug|Any CPU
-		{5C6B624F-191D-40A7-AE78-7FB74F72400C}.Debug|x64.ActiveCfg = Debug|Any CPU
-		{5C6B624F-191D-40A7-AE78-7FB74F72400C}.Debug|x86.ActiveCfg = Debug|Any CPU
-		{5C6B624F-191D-40A7-AE78-7FB74F72400C}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{5C6B624F-191D-40A7-AE78-7FB74F72400C}.Release|Any CPU.Build.0 = Release|Any CPU
-		{5C6B624F-191D-40A7-AE78-7FB74F72400C}.Release|ARM.ActiveCfg = Release|Any CPU
-		{5C6B624F-191D-40A7-AE78-7FB74F72400C}.Release|x64.ActiveCfg = Release|Any CPU
-		{5C6B624F-191D-40A7-AE78-7FB74F72400C}.Release|x86.ActiveCfg = Release|Any CPU
 		{CF3BE0CE-B6BC-48D1-B892-4F9175A32A61}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{CF3BE0CE-B6BC-48D1-B892-4F9175A32A61}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{CF3BE0CE-B6BC-48D1-B892-4F9175A32A61}.Debug|ARM.ActiveCfg = Debug|Any CPU

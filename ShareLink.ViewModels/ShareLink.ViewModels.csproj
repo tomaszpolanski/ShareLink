@@ -71,16 +71,15 @@
     <Reference Include="System.Reactive.PlatformServices">
       <HintPath>..\packages\Rx-PlatformServices.2.2.5\lib\portable-net45+winrt45+wp8+wpa81\System.Reactive.PlatformServices.dll</HintPath>
     </Reference>
+    <Reference Include="Utilities.Reactive">
+      <HintPath>..\packages\Utilities.Reactive.0.0.1\lib\portable-net45+win+wpa81\Utilities.Reactive.dll</HintPath>
+    </Reference>
   </ItemGroup>
   <ItemGroup>
     <None Include="app.config" />
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\..\Utilities\Utilities.Reactive\Utilities.Reactive.csproj">
-      <Project>{5C6B624F-191D-40A7-AE78-7FB74F72400C}</Project>
-      <Name>Utilities.Reactive</Name>
-    </ProjectReference>
     <ProjectReference Include="..\ShareLink.Models\ShareLink.Models.csproj">
       <Project>{cf3be0ce-b6bc-48d1-b892-4f9175a32a61}</Project>
       <Name>ShareLink.Models</Name>
