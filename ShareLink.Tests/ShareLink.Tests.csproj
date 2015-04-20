@@ -79,6 +79,9 @@
     <Reference Include="System.Reactive.PlatformServices">
       <HintPath>..\packages\Rx-PlatformServices.2.2.5\lib\net45\System.Reactive.PlatformServices.dll</HintPath>
     </Reference>
+    <Reference Include="Utilities.Functional">
+      <HintPath>..\packages\Utilities.Functional.0.0.1\lib\portable-net45+win+wpa81+wp80+MonoAndroid10+MonoTouch10\Utilities.Functional.dll</HintPath>
+    </Reference>
   </ItemGroup>
   <Choose>
     <When Condition="('$(VisualStudioVersion)' == '10.0' or '$(VisualStudioVersion)' == '') and '$(TargetFrameworkVersion)' == 'v3.5'">

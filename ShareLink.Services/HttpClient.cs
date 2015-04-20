@@ -1,6 +1,7 @@
 ﻿using ShareLink.Services.Interfaces;
 using System;
 using System.Threading.Tasks;
+using Utilities.Functional;
 
 namespace ShareLink.Services
 {
@@ -13,15 +14,15 @@ namespace ShareLink.Services
             _client = new System.Net.Http.HttpClient();
         }
 
-        public async Task<string> GetStringAsync(Uri uri, System.Threading.CancellationToken token)
+        public async Task<Option<string>> GetStringAsync(Uri uri, System.Threading.CancellationToken token)
         {
             using(var response = await _client.GetAsync(uri, token))
             {
                 if (response.IsSuccessStatusCode)
                 {
-                    return await response.Content.ReadAsStringAsync();
+                    return Option<string>.AsOption( await response.Content.ReadAsStringAsync());
                 }
-                return null;
+                return Option<string>.None;
             }
         }
     }

@@ -3,6 +3,7 @@ using System.Text.RegularExpressions;
 using System.Threading;
 using System.Threading.Tasks;
 using ShareLink.Services.Interfaces;
+using Utilities.Functional;
 
 namespace ShareLink.Services
 {
@@ -15,15 +16,9 @@ namespace ShareLink.Services
             _client = client;
         }
 
-        public async Task<string> GetPageTitleAsync(Uri uri, CancellationToken token)
+        public async Task<Option<string>> GetPageTitleAsync(Uri uri, CancellationToken token)
         {
-            var stringResponse = await _client.GetStringAsync(uri, token);
-            if ( !string.IsNullOrEmpty( stringResponse))
-            {
-                return GetPageTitle(stringResponse);
-
-            }
-            return null;
+            return (await _client.GetStringAsync(uri, token)).Select(GetPageTitle);
         }
 
         private static string GetPageTitle(string pageContent)

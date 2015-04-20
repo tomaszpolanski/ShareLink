@@ -12,7 +12,7 @@ using ShareLink.Services;
 using ShareLink.Services.Interfaces;
 using ShareLink.Tests.Mocks;
 using ShareLink.ViewModels.ViewModels;
-
+using Utilities.Functional;
 
 namespace ShareLink.Tests.ViewModels
 {
@@ -180,7 +180,7 @@ namespace ShareLink.Tests.ViewModels
         public void ResolveTitleOfPage()
         {
             const string pageTitle = "SomeTitle";
-            A.CallTo(() => _httpService.GetPageTitleAsync(A<Uri>.Ignored, A<CancellationToken>.Ignored)).Returns(Task.FromResult( pageTitle ));
+            A.CallTo(() => _httpService.GetPageTitleAsync(A<Uri>.Ignored, A<CancellationToken>.Ignored)).Returns(Task.FromResult(Option<string>.AsOption(pageTitle) ));
             var viewModel = CreateViewModel();
             viewModel.Text.Value = "test";
 
@@ -205,7 +205,7 @@ namespace ShareLink.Tests.ViewModels
         {
             var viewModel = CreateViewModel();
             viewModel.Text.Value = "test";
-            A.CallTo(() => _httpService.GetPageTitleAsync(A<Uri>.Ignored, A<CancellationToken>.Ignored)).Returns(Task.FromResult("pageTitle"));
+            A.CallTo(() => _httpService.GetPageTitleAsync(A<Uri>.Ignored, A<CancellationToken>.Ignored)).Returns(Task.FromResult(Option<string>.AsOption("pageTitle")));
             bool progressChangedToTrue = false;
             viewModel.IsInProgress.Subscribe(isInProgress => progressChangedToTrue |= isInProgress);
 

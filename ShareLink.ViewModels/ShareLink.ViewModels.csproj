@@ -78,6 +78,9 @@
     <Reference Include="System.Reactive.PlatformServices">
       <HintPath>..\packages\Rx-PlatformServices.2.2.5\lib\portable-net45+winrt45+wp8+wpa81\System.Reactive.PlatformServices.dll</HintPath>
     </Reference>
+    <Reference Include="Utilities.Functional">
+      <HintPath>..\packages\Utilities.Functional.0.0.1\lib\portable-net45+win+wpa81+wp80+MonoAndroid10+MonoTouch10\Utilities.Functional.dll</HintPath>
+    </Reference>
     <Reference Include="Utilities.Reactive">
       <HintPath>..\packages\Utilities.Reactive.0.0.1\lib\portable-net45+win+wpa81\Utilities.Reactive.dll</HintPath>
     </Reference>

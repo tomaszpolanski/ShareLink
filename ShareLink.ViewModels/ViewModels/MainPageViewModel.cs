@@ -14,6 +14,7 @@ using ShareLink.Models;
 using ShareLink.Services;
 using ShareLink.Services.Interfaces;
 using Utilities.Reactive;
+using Utilities.Functional;
 using System.Reactive;
 
 namespace ShareLink.ViewModels.ViewModels
@@ -119,6 +120,7 @@ namespace ShareLink.ViewModels.ViewModels
         private static IObservable<ShareData> DefineUrlTitleResolveObservable(IObservable<string> shareTrigger, IHttpService httpService )
         {
             return shareTrigger.Select(url => Observable.FromAsync(token => httpService.GetPageTitleAsync(new Uri(url), token))
+                                                        .Select(titleOption => titleOption.Or(() => String.Empty))
                                                         .Select(title => new ShareData(title, url))
                                                         .Catch<ShareData, HttpRequestException>(exception => Observable.Return(new ShareData(string.Empty, url))))
                                .Switch()
@@ -126,14 +128,14 @@ namespace ShareLink.ViewModels.ViewModels
                                .RefCount();
         }
 
-        private static IObservable<Unit> DefineEnterPressedObservable(IObservable<object> keyPressedObservable )
+        private static IObservable<System.Reactive.Unit> DefineEnterPressedObservable(IObservable<object> keyPressedObservable )
         {
             return keyPressedObservable.Cast<VirtualKey?>()
                                        .Where(args => args != null && args.Value == VirtualKey.Enter)
                                        .SelectUnit();
         }
 
-        private static IObservable<string> DefineShareTrigger(IObservable<string> formattedTextObservable, IObservable<object> shareObservable, IObservable<Unit> enterPressedObservable)
+        private static IObservable<string> DefineShareTrigger(IObservable<string> formattedTextObservable, IObservable<object> shareObservable, IObservable<System.Reactive.Unit> enterPressedObservable)
         {
             return formattedTextObservable.Select(text => shareObservable.SelectUnit()
                                                                          .Merge(enterPressedObservable)

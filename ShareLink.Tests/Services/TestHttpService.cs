@@ -5,6 +5,7 @@ using ShareLink.Services.Interfaces;
 using System;
 using System.Threading;
 using System.Threading.Tasks;
+using Utilities.Functional;
 
 namespace ShareLink.Tests.Services
 {
@@ -27,11 +28,12 @@ namespace ShareLink.Tests.Services
         [TestMethod]
         public async Task TestGettingTitle()
         {
-            A.CallTo(() => _httpClient.GetStringAsync(A<Uri>.Ignored, A<CancellationToken>.Ignored)).Returns(Task.FromResult(Response));
+            A.CallTo(() => _httpClient.GetStringAsync(A<Uri>.Ignored, A<CancellationToken>.Ignored)).Returns(Task.FromResult(Option<string>.AsOption( Response )));
 
             var title = await _httpService.GetPageTitleAsync(new Uri("http://test.test"), CancellationToken.None);
 
-            Assert.AreEqual("This is the title", title);
+            Assert.IsTrue(title.IsSome);
+            Assert.AreEqual("This is the title", title.Get());
         }
     }
 }
