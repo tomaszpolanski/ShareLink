@@ -4,20 +4,21 @@ using System.Threading.Tasks;
 using Windows.ApplicationModel.DataTransfer;
 using Services.Interfaces;
 using ShareLink.Services.Interfaces;
+using Utilities.Functional;
 
 namespace ShareLink.Services.Windows
 {
     public class ClipboardService : IClipboardService
     {
-        public async Task<string> GetTextAsync(CancellationToken token)
+        public async Task<Option<string>> GetTextAsync(CancellationToken token)
         {
             try
             {
-                return await Clipboard.GetContent().GetTextAsync().AsTask(token);
+                return Option<string>.AsOption(await Clipboard.GetContent().GetTextAsync().AsTask(token));
             }
             catch (Exception)
             {
-                return null;
+                return Option<string>.None;
             }
         }
     }

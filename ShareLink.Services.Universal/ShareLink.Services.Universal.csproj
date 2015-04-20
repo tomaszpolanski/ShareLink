@@ -44,6 +44,10 @@
   </PropertyGroup>
   <ItemGroup>
     <!-- A reference to the entire .NET Framework is automatically included -->
+    <ProjectReference Include="..\ShareLink.Models\ShareLink.Models.csproj">
+      <Project>{cf3be0ce-b6bc-48d1-b892-4f9175a32a61}</Project>
+      <Name>ShareLink.Models</Name>
+    </ProjectReference>
     <ProjectReference Include="..\ShareLink.Services\ShareLink.Services.csproj">
       <Project>{67747A3F-3D80-4CB6-95F7-FD26208AB748}</Project>
       <Name>ShareLink.Services</Name>
@@ -62,6 +66,11 @@
   <ItemGroup>
     <None Include="CodeAnalysisRules.ruleset" />
     <None Include="packages.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <Reference Include="Utilities.Functional">
+      <HintPath>..\packages\Utilities.Functional.0.0.1\lib\portable-net45+win+wpa81+wp80+MonoAndroid10+MonoTouch10\Utilities.Functional.dll</HintPath>
+    </Reference>
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath32)\Microsoft\Portable\$(TargetFrameworkVersion)\Microsoft.Portable.CSharp.targets" />
   <Import Project="$(SolutionDir)\.nuget\NuGet.targets" Condition="Exists('$(SolutionDir)\.nuget\NuGet.targets')" />

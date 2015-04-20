@@ -74,7 +74,7 @@ namespace ShareLink.Tests.ViewModels
         {
             const string clipboardText = "SomeText";
             var visibilitySubject = new Subject<bool>();
-            A.CallTo(() => _clipboardService.GetTextAsync(A<CancellationToken>.Ignored)).Returns(Task.FromResult(clipboardText));
+            A.CallTo(() => _clipboardService.GetTextAsync(A<CancellationToken>.Ignored)).Returns(Task.FromResult(Option<string>.AsOption(clipboardText)));
             A.CallTo(() => _windowService.IsVisibleObservable).Returns(visibilitySubject);
             var viewModel = CreateViewModel();
 

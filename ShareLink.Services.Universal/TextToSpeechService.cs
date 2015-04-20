@@ -6,6 +6,7 @@ using Windows.Storage.Streams;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using ShareLink.Services.Interfaces;
+using Utilities.Functional;
 
 namespace ShareLink.Services.Universal
 {
@@ -32,7 +33,7 @@ namespace ShareLink.Services.Universal
 
         private static async Task PlayStreamAsync(IRandomAccessStream stream, string mimeType, CancellationToken token)
         {
-            var tcs = new TaskCompletionSource<object>();
+            var tcs = new TaskCompletionSource<Unit>();
             token.Register(tcs.SetCanceled);
             RoutedEventHandler successHandler = null;
             ExceptionRoutedEventHandler failedHandler = null;
@@ -40,8 +41,8 @@ namespace ShareLink.Services.Universal
             var soundPlayer = new MediaElement();
             soundPlayer.SetSource(stream, mimeType);
 
-            successHandler = (a, s) => tcs.SetResult(null);
-            failedHandler = (a, s) => tcs.SetResult(null);
+            successHandler = (a, s) => tcs.SetResult(Unit.Default);
+            failedHandler = (a, s) => tcs.SetResult(Unit.Default);
             soundPlayer.MediaEnded += successHandler;
             soundPlayer.MediaFailed += failedHandler;
             soundPlayer.Play();

@@ -93,10 +93,11 @@ namespace ShareLink.ViewModels.ViewModels
 
         private static IObservable<string> DefineClipboardObservable(IObservable<bool> applicationVisibilityObservable, IClipboardService clipboardService)
         {
-            return  applicationVisibilityObservable.Select(isVisible => isVisible ? Observable.FromAsync(clipboardService.GetTextAsync) : 
-                                                                                    Observable.Empty<string>())
+            return applicationVisibilityObservable.Select(isVisible => isVisible ? Observable.FromAsync(clipboardService.GetTextAsync) :
+                                                                                   Observable.Empty<Option<string>>())
                                                    .Switch()
-                                                   .Where(clipboardText => !string.IsNullOrEmpty(clipboardText));
+                                                   .Where(clipboardTextOption => clipboardTextOption.IsSome)
+                                                   .Select(clipboardText => clipboardText.Get());
         }
 
         private static IObservable<bool> DefineSelectAllTextTriggerObservable(IObservable<bool> applicationVisibilityObservable, IScheduler timerScheduler)

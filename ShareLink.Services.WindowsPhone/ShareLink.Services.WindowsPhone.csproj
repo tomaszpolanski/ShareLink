@@ -101,6 +101,12 @@
     <None Include="CodeAnalysisRules.ruleset" />
     <None Include="packages.config" />
   </ItemGroup>
+  <ItemGroup>
+    <Reference Include="Utilities.Functional, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\packages\Utilities.Functional.0.0.1\lib\portable-net45+win+wpa81+wp80+MonoAndroid10+MonoTouch10\Utilities.Functional.dll</HintPath>
+    </Reference>
+  </ItemGroup>
   <PropertyGroup Condition=" '$(VisualStudioVersion)' == '' or '$(VisualStudioVersion)' &lt; '12.0' ">
     <VisualStudioVersion>12.0</VisualStudioVersion>
   </PropertyGroup>

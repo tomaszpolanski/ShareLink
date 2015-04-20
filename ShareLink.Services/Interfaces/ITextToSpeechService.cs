@@ -1,4 +1,5 @@
-﻿using System.Threading;
+﻿using ShareLink.Models.Errors;
+using System.Threading;
 using System.Threading.Tasks;
 
 namespace ShareLink.Services.Interfaces
